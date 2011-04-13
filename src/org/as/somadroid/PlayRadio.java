@@ -37,19 +37,18 @@ import android.os.Bundle;
 import org.as.somadroid.R;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SimpleAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class PlayRadio extends ListActivity {
-    /** Called when the activity is first created. */
 
     static final ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();   
 	
     private TextView radio_title;
     private TextView radio_dj;
     private TextView radio_description;
+    private ImageView radio_logo;
 	private Button play_button;
 	private Channel channel;
 
@@ -70,6 +69,9 @@ public class PlayRadio extends ListActivity {
 		this.radio_title = (TextView)this.findViewById(R.id.radio_title);    	
 		this.radio_dj = (TextView)this.findViewById(R.id.radio_dj);
 		this.radio_description = (TextView)this.findViewById(R.id.radio_description);
+		this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
+		
+		this.radio_logo.setImageBitmap(this.channel.getImage());
 		
 		this.play_button = (Button)this.findViewById(R.id.play_button);
 		
@@ -122,7 +124,7 @@ public class PlayRadio extends ListActivity {
 	    	list.add(temp);
 		}
 		
-        SimpleAdapter adapter_songs = new SimpleAdapter(this,list,
+        SpecialAdapter adapter_songs = new SpecialAdapter(this,list,
         		R.layout.list_view_row_songs,
         		new String[] {"song_time", "song_auth","song_title"},
         		new int[] { R.id.song_time, R.id.song_auth, R.id.song_title}

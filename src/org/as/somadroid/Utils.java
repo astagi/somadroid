@@ -110,7 +110,7 @@ public class Utils {
 	{
 		
 	   Bitmap bmImg = BitmapFactory.decodeStream(StreamFromUrl(url));
-	   Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 80, 80, false);
+	   Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 90, 90, false);
 	   return resizedBitmap;
 
 	}
