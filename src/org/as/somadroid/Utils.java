@@ -69,23 +69,6 @@ public class Utils {
 		return time;
 	}
 	
-	public static boolean saveImageToSdCard(Bitmap bm,String filename)
-	{
-
-    	try {
-    		File file = new File(Consts.image_dir, filename);
-	    	FileOutputStream fos = new FileOutputStream( file );
-	    	
-	    	bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
-	    	fos.flush();
-	    	fos.close();
-	    
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-		
-	}
 	
 	public static String saveImageToPhone(Bitmap bm,String filename)
 	{

@@ -135,7 +135,7 @@ public class ChannelsFactory {
 	
 	private void feedChannels()
 	{
-		this.channels_xml = Utils.XMLFromUrl(Consts.channels_url);
+		this.channels_xml = Utils.XMLFromUrl(Consts.CHANNELS_URL);
 	}
 
 }

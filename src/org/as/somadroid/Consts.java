@@ -32,7 +32,7 @@ import android.os.Environment;
 
 public class Consts {
 	
-	public static final String channels_url = "http://somafm.com/channels.xml";
-	public static final String image_dir = Environment.getExternalStorageDirectory().toString();
-
+	public static final String CHANNELS_URL = "http://somafm.com/channels.xml";
+    public static final int SONG_LIST_MAXSIZE = 10;
+	
 }
