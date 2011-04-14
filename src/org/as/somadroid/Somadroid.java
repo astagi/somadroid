@@ -51,7 +51,7 @@ public class Somadroid extends ListActivity {
     private static boolean created = false;
     private PrepareAdapter pa = new PrepareAdapter(!created);
     private static Context context;
-    private static final ChannelsFactory chs2 = new ChannelsFactory();
+    private static final ChannelsFactory channel_factory = new ChannelsFactory();
     
     private static final Handler handler = new Handler();
     
@@ -78,9 +78,42 @@ public class Somadroid extends ListActivity {
         handler.removeMessages(0);
         setContentView(R.layout.custom_list_view);
         myView = (ListView)this.getListView();
+        
+        if(created){   
+            this.setAdapterAndNotify(this.getNewAdapter());
+        }
+        
         pa.execute();
         created = true;
 
+    }
+    
+    public SimpleAdapter getNewAdapter()
+    {
+    	
+   		if(!channel_factory.createChannels())
+   		{
+   			return null;
+   		}
+   		
+	    ArrayList <Channel> chans2 = channel_factory.getChannels();  
+		
+	    if(chans2 != null)
+	    	populateRadioList(chans2);
+
+        SimpleAdapter adapter = new SimpleAdapter(Somadroid.this,list,
+        		R.layout.custom_row_view,
+        		new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
+        		new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
+        		); 	
+        
+        return adapter;
+    }
+    
+    public void setAdapterAndNotify(SimpleAdapter adapter)
+    {
+        Somadroid.this.setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     public static Context app_context()
@@ -116,12 +149,8 @@ public class Somadroid extends ListActivity {
         Channel ch = (Channel)o.get("channel");
         Intent intent = new Intent(this, PlayRadio.class);
         
-        //GlobalSpace.radio.setChannel(ch);
         GlobalSpace.channel_for_activity = ch;
         GlobalSpace.radio.setContext(this);
-
-        
-        //handler.removeMessages(0);
         
         startActivityForResult(intent, 0);
 
@@ -156,33 +185,15 @@ public class Somadroid extends ListActivity {
         @Override
         protected SimpleAdapter doInBackground(Void... params) {
         	
-        	ArrayList <Channel> chans2;
-        	
-       		if(!chs2.createChannels())
-       		{
-       			return null;
-       		}
-
-    	    chans2 = chs2.getChannels();        
-			
-    	    if(chans2 != null)
-    	    	populateRadioList(chans2);
-
-            SimpleAdapter adapter1 = new SimpleAdapter(Somadroid.this,list,
-            		R.layout.custom_row_view,
-            		new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
-            		new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
-            		);
-
-            return adapter1;
+    	    return Somadroid.this.getNewAdapter();
         }
 
-        protected void onPostExecute(SimpleAdapter result) {
-        	if(result==null)
+        protected void onPostExecute(SimpleAdapter new_adapter) {
+        	
+        	if(new_adapter==null)
         	{
            		dialog.dismiss();
            		Somadroid.this.showInternetProblemMessage();
-				doTheAutoRefresh(20000);
         	}
         	
         	else
@@ -194,20 +205,22 @@ public class Somadroid extends ListActivity {
 	        	if (vfirst != null) pos = vfirst.getTop();
 	        	
 	        	//Set list infos
-	        	Somadroid.this.setListAdapter(result);
-	        	result.notifyDataSetChanged();
+	        	Somadroid.this.setAdapterAndNotify(new_adapter);
 
 	        	//Restore the position
 	        	Somadroid.this.myView.setSelectionFromTop(idx, pos);
+	        	
 	       		if(this.output_visible)
-	       			
 	       			dialog.dismiss();
 	       		
 	       		GlobalSpace.notify.notifyRadio();
-				doTheAutoRefresh(20000);
         	}
+        	
+			doTheAutoRefresh(Consts.REFRESH_DELAY);
 
         }
     }
+    
+    
     
 }

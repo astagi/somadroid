@@ -28,11 +28,10 @@
 
 package org.as.somadroid;
 
-import android.os.Environment;
-
 public class Consts {
 	
 	public static final String CHANNELS_URL = "http://somafm.com/channels.xml";
     public static final int SONG_LIST_MAXSIZE = 10;
+    public static final int REFRESH_DELAY = 20000;
 	
 }
