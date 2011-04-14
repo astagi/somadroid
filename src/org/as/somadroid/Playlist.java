@@ -36,43 +36,43 @@ import java.util.ArrayList;
 
 public class Playlist {
 	
-	private int numentries;
-	private ArrayList <PlayListFile> files;
+    private int numentries;
+    private ArrayList <PlayListFile> files;
 	
-	public Playlist(String fileuri)
-	{
-		this.files = new ArrayList <PlayListFile> ();
-		this.readPlsFile(fileuri);
-	}
+    public Playlist(String fileuri)
+    {
+        this.files = new ArrayList <PlayListFile> ();
+        this.readPlsFile(fileuri);
+    }
 	
-	public PlayListFile getFile(int id)
-	{
-		return files.get(id);
-	}
+    public PlayListFile getFile(int id)
+    {
+        return files.get(id);
+    }
 	
-	private void readPlsFile(String fileuri)
-	{		
-		InputStream is = Utils.StreamFromUrl(fileuri);
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-	    String line;
+    private void readPlsFile(String fileuri)
+    {		
+        InputStream is = Utils.StreamFromUrl(fileuri);
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        String line;
     
-	    try
-	    {
-		    line = rd.readLine();
-		    line = rd.readLine();
+        try
+        {
+            line = rd.readLine();
+            line = rd.readLine();
 		    
-		    this.numentries = Integer.parseInt(line.split("=")[1]);
+            this.numentries = Integer.parseInt(line.split("=")[1]);
 		    
-		    for(int i = 0; i < this.numentries; i++)
-		    {
-		    	this.files.add(new PlayListFile(rd.readLine().split("=")[1], rd.readLine().split("=")[1], rd.readLine().split("=")[1]));
-		    }
+            for(int i = 0; i < this.numentries; i++)
+            {
+                this.files.add(new PlayListFile(rd.readLine().split("=")[1], rd.readLine().split("=")[1], rd.readLine().split("=")[1]));
+            }
 	      
-		    rd.close();
+            rd.close();
 		    
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		    
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		    
+    }
 
 }

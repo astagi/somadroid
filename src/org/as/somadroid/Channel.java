@@ -41,75 +41,74 @@ public class Channel {
     private SongsHistory songs_history;
     private String local_img_dir;
 	
-	public Channel()
-	{
-		this.playlists = new ArrayList <Playlist> ();
-		this.attributes = new HashMap <String,String> ();
-		this.songs_history = new SongsHistory();
-		this.local_img_dir = "";
-	}
+    public Channel()
+    {
+        this.playlists = new ArrayList <Playlist> ();
+        this.attributes = new HashMap <String,String> ();
+        this.songs_history = new SongsHistory();
+        this.local_img_dir = "";
+    }
 	
-	public void addAttribute(String id, String value)
-	{
-		this.attributes.put(id, value);
-		this.attributeAddedHandler(id, value);
-	}
+    public void addAttribute(String id, String value)
+    {
+        this.attributes.put(id, value);
+        this.attributeAddedHandler(id, value);
+    }
 	
-	public SongsHistory getHistory()
-	{
-		return this.songs_history;
-	}
+    public SongsHistory getHistory()
+    {
+        return this.songs_history;
+    }
 	
-	public String getAttribute(String id)
-	{
-		return this.attributes.get(id);
-	}
+    public String getAttribute(String id)
+    {
+        return this.attributes.get(id);
+    }
 	
-	protected void attributeAddedHandler(String attribute, String value)
-	{
-		if(attribute.compareTo("image") == 0)
-			this.buildImage();
-		if(attribute.compareTo("lastPlaying") == 0)
-		{
-			String[] song = value.split(" - ");
-			this.songs_history.add(song[0], song[1]);
-		}
-	}
+    protected void attributeAddedHandler(String attribute, String value)
+    {
+        if(attribute.compareTo("image") == 0)
+            this.buildImage();
+        if(attribute.compareTo("lastPlaying") == 0)
+        {
+            String[] song = value.split(" - ");
+            this.songs_history.add(song[0], song[1]);
+        }
+    }
 	
-	public void addPlaylist(Playlist pls)
-	{
-		this.playlists.add(pls);
-	}
+    public void addPlaylist(Playlist pls)
+    {
+        this.playlists.add(pls);
+    }
 	
-	public Playlist getFastlPlaylist(int id)
-	{
-		return playlists.get(id);
-	}
+    public Playlist getFastlPlaylist(int id)
+    {
+        return playlists.get(id);
+    }
 	
-	protected void buildImage()
-	{
-		if(this.image_bmp == null)
-		{
-			this.image_bmp = Utils.loadBitmap(this.getAttribute("image"));
-			this.local_img_dir = Utils.saveImageToPhone(this.image_bmp, this.getLocalName());
-		}
-	}
+    protected void buildImage()
+    {
+        if(this.image_bmp == null)
+        {
+            this.image_bmp = Utils.loadBitmap(this.getAttribute("image"));
+            this.local_img_dir = Utils.saveImageToPhone(this.image_bmp, this.getLocalName());
+        }
+    }
 	
-	public String getImagePath()
-	{
-		return this.local_img_dir;
-	}
+    public String getImagePath()
+    {
+        return this.local_img_dir;
+    }
 	
-	public Bitmap getImage()
-	{
-		return this.image_bmp;
-	}
+    public Bitmap getImage()
+    {
+        return this.image_bmp;
+    }
 	
-	
-	protected String getLocalName()
-	{
-		return this.getAttribute("title").replaceAll(" ", "_") + ".png";
-	}
+    protected String getLocalName()
+    {
+        return this.getAttribute("title").replaceAll(" ", "_") + ".png";
+    }
 	
 
 }

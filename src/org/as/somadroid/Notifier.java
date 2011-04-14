@@ -30,17 +30,17 @@ package org.as.somadroid;
 
 public class Notifier {
 	
-	private PlayRadio activity = null;
+    private PlayRadio activity = null;
 	
-	public void addActivity(PlayRadio pl)
-	{
-		activity = pl;
-	}
+    public void addActivity(PlayRadio pl)
+    {
+        activity = pl;
+    }
 	
-	public void notifyRadio()
-	{
-		if(activity != null)
-			activity.updateMe();
-	}
+    public void notifyRadio()
+    {
+        if(activity != null)
+            activity.updateMe();
+    }
 
 }

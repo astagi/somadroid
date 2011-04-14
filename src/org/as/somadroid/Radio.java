@@ -36,60 +36,60 @@ import android.net.Uri;
 
 public class Radio {
 	
-	private MediaPlayer player = null;
-	private Channel current_ch = null;
-	private Uri uri_context = null;
-	private Context myContext = null;
+    private MediaPlayer player = null;
+    private Channel current_ch = null;
+    private Uri uri_context = null;
+    private Context myContext = null;
 	
-	public void setContext(Context context)
-	{
-		this.myContext = context;
-	}
+    public void setContext(Context context)
+    {
+        this.myContext = context;
+    }
 	
-	public boolean isPlayingChannel(Channel ch)
-	{
-		if (this.current_ch == null)
-			return false;
+    public boolean isPlayingChannel(Channel ch)
+    {
+        if (this.current_ch == null)
+            return false;
 		
-		if (ch.getAttribute("title").compareTo(this.current_ch.getAttribute("title"))==0)
-			return true;
+        if (ch.getAttribute("title").compareTo(this.current_ch.getAttribute("title"))==0)
+            return true;
 		
-		return false;
-	}
+        return false;
+    }
 	
-	public Channel getChannel()
-	{
-		return this.current_ch;
-	}
+    public Channel getChannel()
+    {
+        return this.current_ch;
+    }
 	
-	public void setChannel(Channel ch)
-	{
-		this.current_ch = ch;
+    public void setChannel(Channel ch)
+    {
+        this.current_ch = ch;
         this.uri_context = Uri.parse(this.current_ch.getFastlPlaylist(0).getFile(0).getUrl());
-	}
+    }
 	
-	public boolean isPlaying()
-	{
-		if(this.player == null)
-			return false;
-		return this.player.isPlaying();
-	}
+    public boolean isPlaying()
+    {
+        if(this.player == null)
+            return false;
+        return this.player.isPlaying();
+    }
 	
-	public void stop()
-	{
-		this.player.stop();
-	}
+    public void stop()
+    {
+        this.player.stop();
+    }
 	
-	public void play()
-	{
+    public void play()
+    {
 		        
         if(this.player == null)
-        	this.player = MediaPlayer.create(myContext, uri_context);
-		else
-			try {
-				this.player.stop();
-				this.player = MediaPlayer.create(myContext, uri_context);
-			} catch (Exception e) {}
+            this.player = MediaPlayer.create(myContext, uri_context);
+        else
+            try {
+                this.player.stop();
+                this.player = MediaPlayer.create(myContext, uri_context);
+            } catch (Exception e) {}
 
         this.player.setOnPreparedListener(new OnPreparedListener() { 
             @Override
@@ -98,6 +98,6 @@ public class Radio {
             }
         });
 		
-	}
+    }
 
 }

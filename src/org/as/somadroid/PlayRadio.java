@@ -49,8 +49,8 @@ public class PlayRadio extends ListActivity {
     private TextView radio_dj;
     private TextView radio_description;
     private ImageView radio_logo;
-	private Button play_button;
-	private Channel channel;
+    private Button play_button;
+    private Channel channel;
 
     
     @Override
@@ -64,78 +64,78 @@ public class PlayRadio extends ListActivity {
         GlobalSpace.notify.addActivity(this);
     }
     
-	protected void getElementsFromLayout()
-	{
-		this.radio_title = (TextView)this.findViewById(R.id.radio_title);    	
-		this.radio_dj = (TextView)this.findViewById(R.id.radio_dj);
-		this.radio_description = (TextView)this.findViewById(R.id.radio_description);
-		this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
+    protected void getElementsFromLayout()
+    {
+        this.radio_title = (TextView)this.findViewById(R.id.radio_title);    	
+        this.radio_dj = (TextView)this.findViewById(R.id.radio_dj);
+        this.radio_description = (TextView)this.findViewById(R.id.radio_description);
+        this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
 		
-		this.radio_logo.setImageBitmap(this.channel.getImage());
+        this.radio_logo.setImageBitmap(this.channel.getImage());
 		
-		this.play_button = (Button)this.findViewById(R.id.play_button);
+        this.play_button = (Button)this.findViewById(R.id.play_button);
 		
-    	if (GlobalSpace.radio.isPlaying())
-    	{
-    		PlayRadio.this.play_button.setText("Stop");
-    	}
-    	else
-    	{
-    		PlayRadio.this.play_button.setText("Play");
-    	}
+        if (GlobalSpace.radio.isPlaying())
+        {
+            PlayRadio.this.play_button.setText("Stop");
+        }
+        else
+        {
+            PlayRadio.this.play_button.setText("Play");
+        }
 				
         this.play_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) 
             {
-            	if (GlobalSpace.radio.isPlaying())
-            	{
-            		PlayRadio.this.play_button.setText("Play");
-            		GlobalSpace.radio.stop();
-            	}
-            	else
-            	{
-            		PlayRadio.this.play_button.setText("Stop");
-            		GlobalSpace.radio.setChannel(PlayRadio.this.channel);
-            		GlobalSpace.radio.play();
-            	}
+                if (GlobalSpace.radio.isPlaying())
+                {
+                    PlayRadio.this.play_button.setText("Play");
+                    GlobalSpace.radio.stop();
+                }
+                else
+                {
+                    PlayRadio.this.play_button.setText("Stop");
+                    GlobalSpace.radio.setChannel(PlayRadio.this.channel);
+                    GlobalSpace.radio.play();
+                }
             	
             }
-          });
+        });
 		
-		this.radio_title.setText(this.channel.getAttribute("title"));
-		this.radio_dj.setText("Dj: " + this.channel.getAttribute("dj"));
-		this.radio_description.setText(this.channel.getAttribute("description"));
-	}
+        this.radio_title.setText(this.channel.getAttribute("title"));
+        this.radio_dj.setText("Dj: " + this.channel.getAttribute("dj"));
+        this.radio_description.setText(this.channel.getAttribute("description"));
+    }
     
     private void populateRadioList() {
     	
-    	list.clear();
+        list.clear();
     	
-    	ArrayList <Song> songs = this.channel.getHistory().getSongs();
+        ArrayList <Song> songs = this.channel.getHistory().getSongs();
 
-		for( int i = 0; i < songs.size() ; i++ )
-		{
-	    	HashMap<String,Object> temp = new HashMap<String,Object>();
-	    	temp.put("song_time",  songs.get(i).getTime());
-	    	temp.put("song_auth",  songs.get(i).getAuthor());
-	    	temp.put("song_title", songs.get(i).getTitle());
+        for( int i = 0; i < songs.size() ; i++ )
+        {
+            HashMap<String,Object> temp = new HashMap<String,Object>();
+            temp.put("song_time",  songs.get(i).getTime());
+            temp.put("song_auth",  songs.get(i).getAuthor());
+            temp.put("song_title", songs.get(i).getTitle());
 
-	    	list.add(temp);
-		}
+            list.add(temp);
+        }
 		
         SpecialAdapter adapter_songs = new SpecialAdapter(this,list,
-        		R.layout.list_view_row_songs,
-        		new String[] {"song_time", "song_auth","song_title"},
-        		new int[] { R.id.song_time, R.id.song_auth, R.id.song_title}
-        		);
+        	    R.layout.list_view_row_songs,
+        	    new String[] {"song_time", "song_auth","song_title"},
+        	    new int[] { R.id.song_time, R.id.song_auth, R.id.song_title}
+        );
     	
-    	this.setListAdapter(adapter_songs);
-    	adapter_songs.notifyDataSetChanged();
+        this.setListAdapter(adapter_songs);
+        adapter_songs.notifyDataSetChanged();
     }
 
-	public void updateMe() {
-		this.populateRadioList();
-	}
+    public void updateMe() {
+        this.populateRadioList();
+    }
     
 }

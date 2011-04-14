@@ -37,105 +37,103 @@ import org.w3c.dom.NodeList;
 
 public class ChannelsFactory {
 	
-	private Document channels_xml;
-	private ArrayList <Channel> chans = null;
+    private Document channels_xml;
+    private ArrayList <Channel> chans = null;
 	
-	public ChannelsFactory()
-	{
-		this.channels_xml = null;
-	}
+    public ChannelsFactory()
+    {
+        this.channels_xml = null;
+    }
 	
-	public boolean createForcedChannels()
-	{
-		this.feedChannels();
-		return this.createChannelsList();
-	}
+    public boolean createForcedChannels()
+    {
+        this.feedChannels();
+        return this.createChannelsList();
+    }
 	
-	public boolean createChannels()
-	{
-		this.feedChannels();
-		return this.createChannelsList();
-	}
+    public boolean createChannels()
+    {
+        this.feedChannels();
+        return this.createChannelsList();
+    }
 	
-	private boolean createChannelsList()
-	{
-		//if(this.channels_xml == null)
-			//return false;
+    private boolean createChannelsList()
+    {
 		
-		ArrayList <Channel> chans_aux = this.chans;
+        ArrayList <Channel> chans_aux = this.chans;
 		
-		try{
+        try{
 		
-			NodeList nodeLst = this.channels_xml.getElementsByTagName("channel");
-			String res = null;
+            NodeList nodeLst = this.channels_xml.getElementsByTagName("channel");
+            String res = null;
 			
-			if(this.chans == null)
-			{
-				this.chans = new ArrayList <Channel> ();
+            if(this.chans == null)
+            {
+                this.chans = new ArrayList <Channel> ();
 			
-				for ( int i = 0; i < nodeLst.getLength() ; i++ )
-					this.chans.add(new Channel());
-			}
+                for ( int i = 0; i < nodeLst.getLength() ; i++ )
+                    this.chans.add(new Channel());
+            }
 			
-			for ( int i = 0; i < nodeLst.getLength() ; i++ )
-			{
-			    Node fstNode = nodeLst.item(i);
+            for ( int i = 0; i < nodeLst.getLength() ; i++ )
+            {
+                Node fstNode = nodeLst.item(i);
 	
-			    if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
 			    	
-			      NodeList n = fstNode.getChildNodes();
+                    NodeList n = fstNode.getChildNodes();
 			      
-			      for ( int j = 1; j < n.getLength() ; j++ )
-			      {
+                    for ( int j = 1; j < n.getLength() ; j++ )
+                    {
 			    	  
-			    	  if(n.item(j).getNodeName().compareTo("fastpls") == 0)
-			    	  {
-			    		  try{
-			    		  	  res = n.item(j).getChildNodes().item(0).getNodeValue();
-			    		  }catch (Exception ex){
-			    			  res = "Information not avaible.";
-			    		  }
+                        if(n.item(j).getNodeName().compareTo("fastpls") == 0)
+                        {
+                            try{
+                                res = n.item(j).getChildNodes().item(0).getNodeValue();
+                            }catch (Exception ex){
+                                res = "Information not avaible.";
+                            }
 			    		  
-			    		  this.chans.get(i).addPlaylist(new Playlist(res));
-			    	  }
+                            this.chans.get(i).addPlaylist(new Playlist(res));
+                        }
 			    		  
-			    	  else if(n.item(j).getNodeName().compareTo("slowpls") == 0)
-			    	  {
+                        else if(n.item(j).getNodeName().compareTo("slowpls") == 0)
+                        {
 			    		  
-			    	  }
+                        }
 			    		  
-			    	  else
-			    	  {
+                        else
+                        {
 			    		  
-			    		  try{
-			    		  	  res = n.item(j).getChildNodes().item(0).getNodeValue();
-			    		  }catch (Exception ex){
-			    			  res = "Information not avaible.";
-			    		  }
+                            try{
+                                res = n.item(j).getChildNodes().item(0).getNodeValue();
+                            }catch (Exception ex){
+                                res = "Information not avaible.";
+                            }
 			    		  
-			    		  this.chans.get(i).addAttribute(n.item(j).getNodeName(), "" + res);
-			    	  }
+                            this.chans.get(i).addAttribute(n.item(j).getNodeName(), "" + res);
+                        }
 	
-			      }
+                    }
 	
-			    }
-			}
+                }
+            }
 			
-			return true;
-		}catch(Exception e){
-			this.chans = chans_aux;
-			return true;
-		}
-	}
+            return true;
+        }catch(Exception e){
+            this.chans = chans_aux;
+            return true;
+        }
+    }
 
-	public ArrayList <Channel> getChannels()
-	{
-		return this.chans;
-	}
+    public ArrayList <Channel> getChannels()
+    {
+        return this.chans;
+    }
 	
-	private void feedChannels()
-	{
-		this.channels_xml = Utils.XMLFromUrl(Consts.CHANNELS_URL);
-	}
+    private void feedChannels()
+    {
+        this.channels_xml = Utils.XMLFromUrl(Consts.CHANNELS_URL);
+    }
 
 }

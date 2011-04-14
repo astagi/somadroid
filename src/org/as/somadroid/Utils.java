@@ -28,7 +28,6 @@
 
 package org.as.somadroid;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,99 +47,99 @@ import android.graphics.BitmapFactory;
 
 public class Utils {
 	
-	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	private static DocumentBuilder db = null;
+    private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    private static DocumentBuilder db = null;
 	
-	public static String formatCalendarTime(int hour, int minutes)
-	{
-		String time = "";
-		if (hour < 10)
-			time += "0" + hour;
-		else
-			time += hour;
+    public static String formatCalendarTime(int hour, int minutes)
+    {
+        String time = "";
+        if (hour < 10)
+            time += "0" + hour;
+        else
+            time += hour;
 		
-		time += ":";
+        time += ":";
 		
-		if (minutes < 10)
-			time += "0" + minutes;
-		else
-			time += minutes;
+        if (minutes < 10)
+            time += "0" + minutes;
+        else
+            time += minutes;
 		
-		return time;
-	}
+        return time;
+    }
 	
 	
-	public static String saveImageToPhone(Bitmap bm,String filename)
-	{
+    public static String saveImageToPhone(Bitmap bm,String filename)
+    {
 
-		FileOutputStream fos = null;
+        FileOutputStream fos = null;
 		
-		try
-		{
-			fos = Somadroid.app_context().openFileOutput(filename, Context.MODE_PRIVATE);
-			bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
-			fos.close();
-			return Somadroid.app_context().getFilesDir() + "/" + filename;
-		}
-		catch(Exception ex)
-		{
-	 		return "";					
-		}
+        try
+        {
+            fos = Somadroid.app_context().openFileOutput(filename, Context.MODE_PRIVATE);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+            return Somadroid.app_context().getFilesDir() + "/" + filename;
+        }
+        catch(Exception ex)
+        {
+            return "";					
+        }
 		
-	}
+    }
 	
-	public static Bitmap loadBitmap(String url) 
-	{
+    public static Bitmap loadBitmap(String url) 
+    {
 		
-	   Bitmap bmImg = BitmapFactory.decodeStream(StreamFromUrl(url));
-	   Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 90, 90, false);
-	   return resizedBitmap;
+        Bitmap bmImg = BitmapFactory.decodeStream(StreamFromUrl(url));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 90, 90, false);
+        return resizedBitmap;
 
-	}
+    }
 	
-	public static InputStream StreamFromUrl(String exturl)
-	{
+    public static InputStream StreamFromUrl(String exturl)
+    {
 		
         try {
-        	URL url = new URL(exturl);
-        	HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        	urlConnection.setConnectTimeout(2000);
-        	url.openConnection();
-			return urlConnection.getInputStream();
+            URL url = new URL(exturl);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(2000);
+            url.openConnection();
+            return urlConnection.getInputStream();
 
         } catch (Exception ex) {
-        	return null;
+            return null;
         }
         
-	}
+    }
 	
-	public static Document XMLFromUrl(String xmlurl)
-	{
-		Document doc;
-		try {
-			dbf.setCoalescing(true);
-			db = dbf.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-			return null;
-		}
+    public static Document XMLFromUrl(String xmlurl)
+    {
+        Document doc;
+        try {
+            dbf.setCoalescing(true);
+            db = dbf.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            return null;
+        }
 		
-    	try {
-    		InputStream chxml = Utils.StreamFromUrl(xmlurl);
-    		if(chxml!=null){
-    			doc = db.parse(chxml);
-    			doc.getDocumentElement().normalize();
-    			return doc;
-    		}else
-    			return null;
+        try {
+            InputStream chxml = Utils.StreamFromUrl(xmlurl);
+            if(chxml!=null){
+                doc = db.parse(chxml);
+                doc.getDocumentElement().normalize();
+                return doc;
+            }else
+                return null;
     		
-		} catch (SAXException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+        } catch (SAXException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
