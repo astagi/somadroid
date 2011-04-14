@@ -56,18 +56,18 @@ public class Somadroid extends ListActivity {
     private static final Handler handler = new Handler();
     
     private void doTheAutoRefresh(long time) {
-    	handler.removeMessages(0);
+        handler.removeMessages(0);
         handler.postDelayed(new Runnable() {
 
-			@Override
-			public void run() {
-				if(!pa.isCancelled())
-					pa.cancel(true);
-				pa = new PrepareAdapter(false);
-				pa.execute();
-			}
+            @Override
+            public void run() {
+                if(!pa.isCancelled())
+                    pa.cancel(true);
+                pa = new PrepareAdapter(false);
+                pa.execute();
+            }
                  
-        }, time);
+         }, time);
     }
     
     @Override
@@ -91,21 +91,21 @@ public class Somadroid extends ListActivity {
     public SimpleAdapter getNewAdapter()
     {
     	
-   		if(!channel_factory.createChannels())
-   		{
-   			return null;
-   		}
+        if(!channel_factory.createChannels())
+        {
+            return null;
+        }
    		
-	    ArrayList <Channel> chans2 = channel_factory.getChannels();  
-		
-	    if(chans2 != null)
-	    	populateRadioList(chans2);
+        ArrayList <Channel> chans2 = channel_factory.getChannels();  
+	
+        if(chans2 != null)
+            populateRadioList(chans2);
 
         SimpleAdapter adapter = new SimpleAdapter(Somadroid.this,list,
-        		R.layout.custom_row_view,
-        		new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
-        		new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
-        		); 	
+        	    R.layout.custom_row_view,
+        	    new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
+        	    new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
+        ); 	
         
         return adapter;
     }
@@ -118,28 +118,28 @@ public class Somadroid extends ListActivity {
 
     public static Context app_context()
     {
-    	return context;
+        return context;
     }
     
     private void populateRadioList(ArrayList <Channel> arr) {
     	
-    	list.clear();
+        list.clear();
     	
-		for( int i = 0; i < arr.size(); i++ )
-		{			
-	    	HashMap<String,Object> temp = new HashMap<String,Object>();
-	    	temp.put("radio_logo", arr.get(i).getImagePath());
-	    	temp.put("radio_title",arr.get(i).getAttribute("title"));
-	    	temp.put("radio_listeners", "Genre:" + arr.get(i).getAttribute("genre"));
-	    	temp.put("radio_song", arr.get(i).getAttribute("lastPlaying"));
-	    	temp.put("channel", arr.get(i));
-	    	list.add(temp);	
-		}
+        for( int i = 0; i < arr.size(); i++ )
+        {			
+            HashMap<String,Object> temp = new HashMap<String,Object>();
+            temp.put("radio_logo", arr.get(i).getImagePath());
+            temp.put("radio_title",arr.get(i).getAttribute("title"));
+            temp.put("radio_listeners", "Genre:" + arr.get(i).getAttribute("genre"));
+            temp.put("radio_song", arr.get(i).getAttribute("lastPlaying"));
+            temp.put("channel", arr.get(i));
+            list.add(temp);	
+        }
     }
     
     public void showInternetProblemMessage()
     {	
- 		Toast.makeText(this, "Internet problems", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Internet problems", Toast.LENGTH_LONG).show();
     }
     
     protected void onListItemClick(ListView l, View v, int position, long id) 
@@ -158,21 +158,21 @@ public class Somadroid extends ListActivity {
 
     public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
        
-    	private ProgressDialog dialog;
+        private ProgressDialog dialog;
         private boolean output_visible;
         
         
         public PrepareAdapter(boolean output_visible)
         {
-        	super();
-        	this.output_visible = output_visible;
+            super();
+            this.output_visible = output_visible;
         }
         
         @Override
         protected void onPreExecute() {
 
-        	if(!this.output_visible)
-        		return;
+            if(!this.output_visible)
+                return;
         	
             dialog = new ProgressDialog(Somadroid.this);
             dialog.setMessage("Loading stations...");
@@ -184,43 +184,40 @@ public class Somadroid extends ListActivity {
 
         @Override
         protected SimpleAdapter doInBackground(Void... params) {
-        	
-    	    return Somadroid.this.getNewAdapter();
+            return Somadroid.this.getNewAdapter();
         }
 
         protected void onPostExecute(SimpleAdapter new_adapter) {
         	
-        	if(new_adapter==null)
-        	{
-           		dialog.dismiss();
-           		Somadroid.this.showInternetProblemMessage();
-        	}
+            if(new_adapter==null)
+            {
+                dialog.dismiss();
+                Somadroid.this.showInternetProblemMessage();
+            }
         	
-        	else
-        	{
-	        	//Get the top position from the first visible element
-	        	int idx = Somadroid.this.myView.getFirstVisiblePosition();
-	        	View vfirst = Somadroid.this.myView.getChildAt(0);
-	        	int pos = 0;
-	        	if (vfirst != null) pos = vfirst.getTop();
+            else
+            {
+                //Get the top position from the first visible element
+                int idx = Somadroid.this.myView.getFirstVisiblePosition();
+                View vfirst = Somadroid.this.myView.getChildAt(0);
+                int pos = 0;
+                if (vfirst != null) pos = vfirst.getTop();
 	        	
-	        	//Set list infos
-	        	Somadroid.this.setAdapterAndNotify(new_adapter);
+                //Set list infos
+                Somadroid.this.setAdapterAndNotify(new_adapter);
 
-	        	//Restore the position
-	        	Somadroid.this.myView.setSelectionFromTop(idx, pos);
+                //Restore the position
+                Somadroid.this.myView.setSelectionFromTop(idx, pos);
 	        	
-	       		if(this.output_visible)
-	       			dialog.dismiss();
+                if(this.output_visible)
+                    dialog.dismiss();
 	       		
-	       		GlobalSpace.notify.notifyRadio();
-        	}
+                GlobalSpace.notify.notifyRadio();
+            }
         	
-			doTheAutoRefresh(Consts.REFRESH_DELAY);
+            doTheAutoRefresh(Consts.REFRESH_DELAY);
 
         }
     }
-    
-    
     
 }
