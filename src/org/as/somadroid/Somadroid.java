@@ -51,9 +51,28 @@ public class Somadroid extends ListActivity {
     private static boolean created = false;
     private PrepareAdapter pa = new PrepareAdapter(!created);
     private static Context context;
+    private static SimpleAdapter current_adapter;
     private static final ChannelsFactory channel_factory = new ChannelsFactory();
     
     private static final Handler handler = new Handler();
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    	
+        super.onCreate(savedInstanceState);
+        context = this.getApplicationContext();
+        handler.removeMessages(0);
+        setContentView(R.layout.custom_list_view);
+        myView = (ListView)this.getListView();
+        
+        if(created){   
+            this.setAdapterAndNotify(current_adapter);
+        }
+        
+        pa.execute();
+        created = true;
+
+    }
     
     private void doTheAutoRefresh(long time) {
         handler.removeMessages(0);
@@ -68,24 +87,6 @@ public class Somadroid extends ListActivity {
             }
                  
          }, time);
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	
-        super.onCreate(savedInstanceState);
-        context = this.getApplicationContext();
-        handler.removeMessages(0);
-        setContentView(R.layout.custom_list_view);
-        myView = (ListView)this.getListView();
-        
-        if(created){   
-            this.setAdapterAndNotify(this.getNewAdapter());
-        }
-        
-        pa.execute();
-        created = true;
-
     }
     
     public SimpleAdapter getNewAdapter()
@@ -107,6 +108,7 @@ public class Somadroid extends ListActivity {
         	    new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
         ); 	
         
+        current_adapter = adapter;
         return adapter;
     }
     

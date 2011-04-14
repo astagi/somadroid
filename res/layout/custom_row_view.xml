@@ -2,7 +2,9 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="90dp">
+  android:layout_height="90dp"
+  android:background="@android:color/black"
+  >
   
   
 	<ImageView
@@ -22,6 +24,7 @@
 		  	android:layout_width="fill_parent"         
 		  	android:layout_height="wrap_content"
 		  	android:layout_weight="0" android:layout_marginLeft="10dip"/>
+		  	
 		<TextView android:id="@+id/listeners"         
 		  	android:textSize="12sp"         
 		  	android:textStyle="bold"      
