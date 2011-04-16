@@ -16,8 +16,8 @@ public class RadioWidget extends LinearLayout {
 	private Channel channel_to_play;
 	
     public RadioWidget(Context context) {
-		super(context);
-    	LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        super(context);
+        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.radiowidget, this);
         this.play_button = (Button)this.findViewById(R.id.play_button);
         this.song_author = (TextView)this.findViewById(R.id.current_song_auth);
@@ -44,7 +44,7 @@ public class RadioWidget extends LinearLayout {
         });
         
         this.initialize();
-	}
+    }
 
     public void setChannelToPlay(Channel channel_to_play)
     {
@@ -53,17 +53,17 @@ public class RadioWidget extends LinearLayout {
     
     public void updateMe()
     {
-    	if(GlobalSpace.radio.getChannel() == null)
-    		return;
+        if(GlobalSpace.radio.getChannel() == null)
+            return;
     	
-    	this.song_author.setText(GlobalSpace.radio.getChannel().getAttribute("lastPlaying"));
-    	this.song_title.setText(GlobalSpace.radio.getChannel().getAttribute("lastPlaying"));
+        this.song_author.setText(GlobalSpace.radio.getChannel().getAttribute("lastPlaying"));
+        this.song_title.setText(GlobalSpace.radio.getChannel().getAttribute("lastPlaying"));
     }
     
     private void offMe()
     {
-    	this.song_author.setText("----");
-    	this.song_title.setText("----");
+        this.song_author.setText("----");
+        this.song_title.setText("----");
     }
     
     private void initialize(){
@@ -71,7 +71,7 @@ public class RadioWidget extends LinearLayout {
         this.updateMe();
     	
 	    if (GlobalSpace.radio.isPlaying())
-		{
+        {
 	        this.play_button.setText("Stop");
 	    }
 	    else
