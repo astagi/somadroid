@@ -35,9 +35,8 @@ import java.util.HashMap;
 import android.app.ListActivity;
 import android.os.Bundle;
 import org.as.somadroid.R;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -49,8 +48,10 @@ public class PlayRadio extends ListActivity {
     private TextView radio_dj;
     private TextView radio_description;
     private ImageView radio_logo;
-    private Button play_button;
+    private LinearLayout radio_w_layout;
+    
     private Channel channel;
+    private RadioWidget radio_w;
 
     
     @Override
@@ -58,6 +59,8 @@ public class PlayRadio extends ListActivity {
     	
         super.onCreate(savedInstanceState);
         channel = GlobalSpace.channel_for_activity;
+        this.radio_w = new RadioWidget(this);
+        this.radio_w.setChannelToPlay(this.channel);
         setContentView(R.layout.list_view_songs);
         this.populateRadioList();
         this.getElementsFromLayout();
@@ -70,38 +73,11 @@ public class PlayRadio extends ListActivity {
         this.radio_dj = (TextView)this.findViewById(R.id.radio_dj);
         this.radio_description = (TextView)this.findViewById(R.id.radio_description);
         this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
+        this.radio_w_layout = (LinearLayout)this.findViewById(R.id.radiowidget);
+        
+        this.radio_w_layout.addView(this.radio_w);
 		
         this.radio_logo.setImageBitmap(this.channel.getImage());
-		
-        this.play_button = (Button)this.findViewById(R.id.play_button);
-		
-        if (GlobalSpace.radio.isPlaying())
-        {
-            PlayRadio.this.play_button.setText("Stop");
-        }
-        else
-        {
-            PlayRadio.this.play_button.setText("Play");
-        }
-				
-        this.play_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) 
-            {
-                if (GlobalSpace.radio.isPlaying())
-                {
-                    PlayRadio.this.play_button.setText("Play");
-                    GlobalSpace.radio.stop();
-                }
-                else
-                {
-                    PlayRadio.this.play_button.setText("Stop");
-                    GlobalSpace.radio.setChannel(PlayRadio.this.channel);
-                    GlobalSpace.radio.play();
-                }
-            	
-            }
-        });
 		
         this.radio_title.setText(this.channel.getAttribute("title"));
         this.radio_dj.setText("Dj: " + this.channel.getAttribute("dj"));
@@ -136,6 +112,7 @@ public class PlayRadio extends ListActivity {
 
     public void updateMe() {
         this.populateRadioList();
+        this.radio_w.updateMe();
     }
     
 }

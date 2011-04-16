@@ -40,6 +40,7 @@ public class Radio {
     private Channel current_ch = null;
     private Uri uri_context = null;
     private Context myContext = null;
+
 	
     public void setContext(Context context)
     {
