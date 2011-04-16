@@ -40,6 +40,8 @@ public class Channel {
     private Bitmap image_bmp;
     private SongsHistory songs_history;
     private String local_img_dir;
+    
+    private Song last_song;
 	
     public Channel()
     {
@@ -73,12 +75,18 @@ public class Channel {
         {
             String[] song = value.split(" - ");
             this.songs_history.add(song[0], song[1]);
+            this.last_song = new Song(song[0], song[1]);
         }
     }
 	
     public void addPlaylist(Playlist pls)
     {
         this.playlists.add(pls);
+    }
+    
+    public Song getLastSong()
+    {
+        return this.last_song;
     }
 	
     public Playlist getFastlPlaylist(int id)

@@ -14,16 +14,16 @@ public class RadioNotification {
 
     private PendingIntent contentIntent;
     private final int NOTIFICATION_ID = 1;
-    private PlayRadio current_activity;
+    private Context current_activity;
 	
-    public RadioNotification(PlayRadio current_activity)
+    public RadioNotification(Context current_activity)
     {
         String ns = Context.NOTIFICATION_SERVICE;
         this.current_activity = current_activity;
         this.mNotificationManager = (NotificationManager) this.current_activity.getSystemService(ns);
         
         int icon = R.drawable.notification_icon;
-        CharSequence tickerText = "Hello";
+        CharSequence tickerText = "SomaFm is playing";
         long when = System.currentTimeMillis();
 
         this.notification = new Notification(icon, tickerText, when);
@@ -32,8 +32,8 @@ public class RadioNotification {
         this.contentIntent = PendingIntent.getActivity(this.current_activity, 0, notificationIntent, 0);
     }
 
-    public void notifyPlay(Channel currentCh) {
-        this.updateNotification(currentCh.getAttribute("lastPlaying"), currentCh.getAttribute("lastPlaying"));
+    public void notifyPlay(Song current_song) {
+        this.updateNotification(current_song.getAuthor(), current_song.getTitle());
     }
 
     public void notifyStop() {

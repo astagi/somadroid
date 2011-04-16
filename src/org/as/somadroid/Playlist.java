@@ -64,9 +64,9 @@ public class Playlist {
             this.numentries = Integer.parseInt(line.split("=")[1]);
 		    
             for(int i = 0; i < this.numentries; i++)
-            {
-                this.files.add(new PlayListFile(rd.readLine().split("=")[1], rd.readLine().split("=")[1], rd.readLine().split("=")[1]));
-            }
+                this.files.add(new PlayListFile(rd.readLine().split("=")[1], 
+                                                rd.readLine().split("=")[1], 
+                                                rd.readLine().split("=")[1]));
 	      
             rd.close();
 		    
