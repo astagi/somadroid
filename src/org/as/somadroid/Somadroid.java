@@ -39,6 +39,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import org.as.somadroid.R;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -46,7 +48,6 @@ import android.widget.Toast;
 
 public class Somadroid extends ListActivity {
 	
-    static final ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();   
     private ListView myView;
     private static boolean created = false;
     private PrepareAdapter pa = new PrepareAdapter(!created);
@@ -65,13 +66,12 @@ public class Somadroid extends ListActivity {
         setContentView(R.layout.custom_list_view);
         myView = (ListView)this.getListView();
         
-        if(created){   
+        if(created)   
             this.setAdapterAndNotify(current_adapter);
-        }
         
         pa.execute();
         created = true;
-
+        
     }
     
     private void doTheAutoRefresh(long time) {
@@ -98,11 +98,13 @@ public class Somadroid extends ListActivity {
         }
    		
         ArrayList <Channel> chans2 = channel_factory.getChannels();  
+                
+        ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
 	
         if(chans2 != null)
-            populateRadioList(chans2);
+            list_populate = populateRadioList(chans2);
 
-        SimpleAdapter adapter = new SimpleAdapter(Somadroid.this,list,
+        SimpleAdapter adapter = new SimpleAdapter(Somadroid.this,list_populate,
         	    R.layout.custom_row_view,
         	    new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
         	    new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
@@ -114,7 +116,7 @@ public class Somadroid extends ListActivity {
     
     public void setAdapterAndNotify(SimpleAdapter adapter)
     {
-        Somadroid.this.setListAdapter(adapter);
+        this.setListAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
@@ -123,9 +125,9 @@ public class Somadroid extends ListActivity {
         return context;
     }
     
-    private void populateRadioList(ArrayList <Channel> arr) {
+    private ArrayList<HashMap<String,Object>>  populateRadioList(ArrayList <Channel> arr) {
     	
-        list.clear();
+        ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
     	
         for( int i = 0; i < arr.size(); i++ )
         {			
@@ -135,8 +137,10 @@ public class Somadroid extends ListActivity {
             temp.put("radio_listeners", "Genre:" + arr.get(i).getAttribute("genre"));
             temp.put("radio_song", arr.get(i).getAttribute("lastPlaying"));
             temp.put("channel", arr.get(i));
-            list.add(temp);	
+            list_populate.add(temp);	
         }
+        
+        return list_populate;
     }
     
     public void showInternetProblemMessage()
@@ -203,11 +207,12 @@ public class Somadroid extends ListActivity {
                 int idx = Somadroid.this.myView.getFirstVisiblePosition();
                 View vfirst = Somadroid.this.myView.getChildAt(0);
                 int pos = 0;
-                if (vfirst != null) pos = vfirst.getTop();
-	        	
+                
+                if (vfirst != null) 
+                    pos = vfirst.getTop();
+               
                 //Set list infos
                 Somadroid.this.setAdapterAndNotify(new_adapter);
-
                 //Restore the position
                 Somadroid.this.myView.setSelectionFromTop(idx, pos);
 	        	
