@@ -42,8 +42,6 @@ import android.widget.TextView;
 
 public class PlayRadio extends ListActivity {
 
-    static final ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();   
-	
     private TextView radio_title;
     private TextView radio_dj;
     private TextView radio_description;
@@ -86,7 +84,8 @@ public class PlayRadio extends ListActivity {
     
     private void populateRadioList() {
     	
-        list.clear();
+        ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();   
+
     	
         ArrayList <Song> songs = this.channel.getHistory().getSongs();
 
@@ -105,7 +104,7 @@ public class PlayRadio extends ListActivity {
         	    new String[] {"song_time", "song_auth","song_title"},
         	    new int[] { R.id.song_time, R.id.song_auth, R.id.song_title}
         );
-    	
+        
         this.setListAdapter(adapter_songs);
         adapter_songs.notifyDataSetChanged();
     }

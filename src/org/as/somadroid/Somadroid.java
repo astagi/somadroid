@@ -105,9 +105,9 @@ public class Somadroid extends ListActivity {
             list_populate = populateRadioList(chans2);
 
         SimpleAdapter adapter = new SimpleAdapter(Somadroid.this,list_populate,
-        	    R.layout.custom_row_view,
-        	    new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
-        	    new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
+                R.layout.custom_row_view,
+                new String[] {"radio_logo", "radio_title","radio_listeners","radio_song"},
+                new int[] { R.id.img, R.id.title,R.id.listeners, R.id.currentplay}
         ); 	
         
         current_adapter = adapter;
@@ -134,7 +134,7 @@ public class Somadroid extends ListActivity {
             HashMap<String,Object> temp = new HashMap<String,Object>();
             temp.put("radio_logo", arr.get(i).getImagePath());
             temp.put("radio_title",arr.get(i).getAttribute("title"));
-            temp.put("radio_listeners", "Genre:" + arr.get(i).getAttribute("genre"));
+            temp.put("radio_listeners", "Genre: " + arr.get(i).getAttribute("genre"));
             temp.put("radio_song", arr.get(i).getAttribute("lastPlaying"));
             temp.put("channel", arr.get(i));
             list_populate.add(temp);	

@@ -3,15 +3,16 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="40dp"
+  
   >
   
 	<TextView android:id="@+id/song_time"         
 	  	android:textSize="16sp"         
 	  	android:textStyle="bold" 
-	  	android:textColor="#FFFF00"        
+	  	android:textColor="#FFFF00"     
+	  	android:layout_height="fill_parent"   
 	  	android:layout_width="wrap_content"
-	  	android:layout_height="wrap_content"
 	  	android:layout_weight="0" android:layout_marginLeft="10dip"/>
 
 	<LinearLayout
@@ -24,14 +25,16 @@
 		  	android:textStyle="bold" 
 		  	android:textColor="#FFFF00"        
 		  	android:layout_width="fill_parent"         
-		  	android:layout_height="wrap_content"
+		  	android:layout_height="fill_parent"
+		  	android:ellipsize="end"
 		  	android:layout_weight="0" android:layout_marginLeft="10dip"/>
 		  	
 		<TextView android:id="@+id/song_title"         
 		  	android:textSize="12sp"         
 		  	android:textStyle="bold"      
 		  	android:layout_width="fill_parent"         
-		  	android:layout_height="wrap_content"
+		  	android:layout_height="fill_parent"
+		  	android:ellipsize="end"
 		  	android:layout_weight="0"  android:layout_marginLeft="10dip"/>
   	
 	</LinearLayout>
