@@ -27,21 +27,22 @@ public class RadioNotification {
         long when = System.currentTimeMillis();
 
         this.notification = new Notification(icon, tickerText, when);
-        
-        Intent notificationIntent = new Intent(this.current_activity, PlayRadio.class);
+        this.notification.flags |= this.notification.FLAG_NO_CLEAR;
+        Intent notificationIntent = new Intent(this.current_activity, this.current_activity.getClass());
         this.contentIntent = PendingIntent.getActivity(this.current_activity, 0, notificationIntent, 0);
     }
 
-    public void notifyPlay(Song current_song) {
-        this.updateNotification(current_song.getAuthor(), current_song.getTitle());
+    public void notifyPlay(String radioTitle, Song current_song) {
+        this.updateNotification(radioTitle, current_song.getAuthor(), current_song.getTitle());
     }
 
     public void notifyStop() {
         this.deleteNotification();
     }
     
-    protected void updateNotification(String contentTitle, String contentText){
-        this.notification.setLatestEventInfo(this.current_activity.getApplicationContext(), contentTitle, contentText, contentIntent);
+    protected void updateNotification(String radioTitle, String contentTitle, String contentText){
+        String contentNowPlaying = contentTitle + " - " + contentText;
+        this.notification.setLatestEventInfo(this.current_activity.getApplicationContext(), radioTitle, contentNowPlaying, contentIntent);
         this.mNotificationManager.notify(NOTIFICATION_ID, this.notification);
     }
     

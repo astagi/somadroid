@@ -35,6 +35,7 @@ import java.util.HashMap;
 import android.app.ListActivity;
 import android.os.Bundle;
 import org.as.somadroid.R;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class PlayRadio extends ListActivity {
         this.populateRadioList();
         this.getElementsFromLayout();
         GlobalSpace.notify.addActivity(this);
+        
     }
     
     protected void getElementsFromLayout()

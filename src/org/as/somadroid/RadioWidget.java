@@ -16,6 +16,11 @@ public class RadioWidget extends LinearLayout {
 	private Channel channel_to_play;
 	private RadioNotification radio_notification;
 	
+	public RadioNotification getNotification()
+	{
+	    return this.radio_notification;
+	}
+	
     public RadioWidget(Context context) {
         super(context);
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,19 +61,23 @@ public class RadioWidget extends LinearLayout {
     
     public void updateMe()
     {
-        this.refreshScreen();
+        if(GlobalSpace.radio.isPlaying())
+            this.refreshScreen();
     }
         
     private void refreshScreen()
     {
+        
         if(GlobalSpace.radio.getChannel() == null)
             return;
         
         Song last = GlobalSpace.radio.getChannel().getLastSong();
-        this.radio_notification.notifyPlay(last);
-    	
+        String radioTitle = GlobalSpace.radio.getChannel().getAttribute("title");
+
+        this.radio_notification.notifyPlay(radioTitle,last);
         this.song_author.setText(last.getAuthor());
         this.song_title.setText(last.getTitle());
+        
     }
     
     private void offMe()
@@ -80,7 +89,7 @@ public class RadioWidget extends LinearLayout {
     
     private void initialize(){
     	
-        this.refreshScreen();
+        this.updateMe();
     	
         if (GlobalSpace.radio.isPlaying())
             this.play_button.setText("Stop");

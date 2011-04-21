@@ -30,7 +30,9 @@ package org.as.somadroid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -40,7 +42,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import org.as.somadroid.R;
 
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -97,7 +99,7 @@ public class Somadroid extends ListActivity {
             return null;
         }
    		
-        ArrayList <Channel> chans2 = channel_factory.getChannels();  
+        CopyOnWriteArrayList <Channel> chans2 = channel_factory.getChannels();  
                 
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
 	
@@ -125,7 +127,7 @@ public class Somadroid extends ListActivity {
         return context;
     }
     
-    private ArrayList<HashMap<String,Object>>  populateRadioList(ArrayList <Channel> arr) {
+    private ArrayList<HashMap<String,Object>>  populateRadioList(CopyOnWriteArrayList <Channel> arr) {
     	
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
     	
@@ -158,7 +160,7 @@ public class Somadroid extends ListActivity {
         GlobalSpace.channel_for_activity = ch;
         GlobalSpace.radio.setContext(this);
         
-        startActivityForResult(intent, 0);
+        startActivity(intent);
 
     }
 

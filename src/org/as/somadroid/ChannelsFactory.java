@@ -29,7 +29,8 @@
 
 package org.as.somadroid;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -38,29 +39,23 @@ import org.w3c.dom.NodeList;
 public class ChannelsFactory {
 	
     private Document channels_xml;
-    private ArrayList <Channel> chans = null;
+    private CopyOnWriteArrayList <Channel> chans = null;
 	
     public ChannelsFactory()
     {
         this.channels_xml = null;
     }
 	
-    public boolean createForcedChannels()
-    {
-        this.feedChannels();
-        return this.createChannelsList();
-    }
-	
     public boolean createChannels()
     {
-        this.feedChannels();
+        this.feedChannels();        
         return this.createChannelsList();
     }
 	
     private boolean createChannelsList()
     {
 		
-        ArrayList <Channel> chans_aux = this.chans;
+        CopyOnWriteArrayList <Channel> chans_aux = this.chans;
 		
         try{
 		
@@ -69,7 +64,7 @@ public class ChannelsFactory {
 			
             if(this.chans == null)
             {
-                this.chans = new ArrayList <Channel> ();
+                this.chans = new CopyOnWriteArrayList <Channel> ();
 			
                 for ( int i = 0; i < nodeLst.getLength() ; i++ )
                     this.chans.add(new Channel());
@@ -126,7 +121,7 @@ public class ChannelsFactory {
         }
     }
 
-    public ArrayList <Channel> getChannels()
+    public CopyOnWriteArrayList <Channel> getChannels()
     {
         return this.chans;
     }

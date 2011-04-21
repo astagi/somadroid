@@ -33,5 +33,6 @@ public class GlobalSpace {
     public static Radio radio = new Radio();
     public static Notifier notify = new Notifier();
     public static Channel channel_for_activity = null;
+
 	
 }
