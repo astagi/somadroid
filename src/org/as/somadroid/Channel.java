@@ -36,7 +36,8 @@ import android.graphics.Bitmap;
 public class Channel {
 	
     private HashMap <String,String> attributes;
-    private ArrayList <Playlist> playlists;
+    private ArrayList <Playlist> playlists_fast;
+    private ArrayList <Playlist> playlists_slow;
     private Bitmap image_bmp;
     private SongsHistory songs_history;
     private String local_img_dir;
@@ -45,7 +46,8 @@ public class Channel {
 	
     public Channel()
     {
-        this.playlists = new ArrayList <Playlist> ();
+        this.playlists_fast = new ArrayList <Playlist> ();
+        this.playlists_slow = new ArrayList <Playlist> ();
         this.attributes = new HashMap <String,String> ();
         this.songs_history = new SongsHistory();
         this.local_img_dir = "";
@@ -71,6 +73,12 @@ public class Channel {
     {
         if(attribute.compareTo("image") == 0)
             this.buildImage();
+        if(attribute.compareTo("fastpls") == 0)
+            this.buildImage();
+        if(attribute.compareTo("slowpls") == 0)
+            this.addSlowPlaylist(new Playlist(value));
+        if(attribute.compareTo("fastpls") == 0)
+            this.addFastPlaylist(new Playlist(value));
         if(attribute.compareTo("lastPlaying") == 0)
         {
             String[] song = value.split(" - ");
@@ -79,9 +87,14 @@ public class Channel {
         }
     }
 	
-    public void addPlaylist(Playlist pls)
+    private void addFastPlaylist(Playlist pls)
     {
-        this.playlists.add(pls);
+        this.playlists_fast.add(pls);
+    }
+    
+    private void addSlowPlaylist(Playlist pls)
+    {
+        this.playlists_slow.add(pls);
     }
     
     public Song getLastSong()
@@ -89,10 +102,14 @@ public class Channel {
         return this.last_song;
     }
 	
-    public Playlist getFastlPlaylist(int id)
+    public Playlist getPlaylist(String type, int id)
     {
-        return playlists.get(id);
+        if(type == "fast")
+            return playlists_fast.get(id);
+        else
+            return playlists_slow.get(id);
     }
+    
 	
     protected void buildImage()
     {

@@ -66,7 +66,7 @@ public class Radio {
     public void setChannel(Channel ch)
     {
         this.current_ch = ch;
-        this.uri_context = Uri.parse(this.current_ch.getFastlPlaylist(0).getFile(0).getUrl());
+        this.uri_context = Uri.parse(this.current_ch.getPlaylist("slow",0).getFile(0).getUrl());
     }
 	
     public boolean isPlaying()

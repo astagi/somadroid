@@ -79,36 +79,14 @@ public class ChannelsFactory {
                     NodeList n = fstNode.getChildNodes();
 			      
                     for ( int j = 1; j < n.getLength() ; j++ )
-                    {
-			    	  
-                        if(n.item(j).getNodeName().compareTo("fastpls") == 0)
-                        {
-                            try{
-                                res = n.item(j).getChildNodes().item(0).getNodeValue();
-                            }catch (Exception ex){
-                                res = "Information not avaible.";
-                            }
-			    		  
-                            this.chans.get(i).addPlaylist(new Playlist(res));
+                    {  
+                        try{
+                            res = n.item(j).getChildNodes().item(0).getNodeValue();
+                        }catch (Exception ex){
+                            res = "Information not avaible.";
                         }
-			    		  
-                        else if(n.item(j).getNodeName().compareTo("slowpls") == 0)
-                        {
-			    		  
-                        }
-			    		  
-                        else
-                        {
-			    		  
-                            try{
-                                res = n.item(j).getChildNodes().item(0).getNodeValue();
-                            }catch (Exception ex){
-                                res = "Information not avaible.";
-                            }
-			    		  
-                            this.chans.get(i).addAttribute(n.item(j).getNodeName(), "" + res);
-                        }
-	
+                        
+                        this.chans.get(i).addAttribute(n.item(j).getNodeName(), "" + res);
                     }
 	
                 }
