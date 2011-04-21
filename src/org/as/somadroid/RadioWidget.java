@@ -16,10 +16,6 @@ public class RadioWidget extends LinearLayout {
 	private Channel channel_to_play;
 	private RadioNotification radio_notification;
 	
-	public RadioNotification getNotification()
-	{
-	    return this.radio_notification;
-	}
 	
     public RadioWidget(Context context) {
         super(context);
