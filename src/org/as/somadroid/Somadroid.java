@@ -195,14 +195,14 @@ public class Somadroid extends ListActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        Somadroid.this.pa = new PrepareAdapter(true);
-                        Somadroid.this.pa.execute();
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        Somadroid.this.cleanExit();
-                        break;
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Somadroid.this.pa = new PrepareAdapter(true);
+                            Somadroid.this.pa.execute();
+                            break;
+    
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            Somadroid.this.cleanExit();
+                            break;
                     }
                 }
             };
