@@ -95,7 +95,7 @@ public class ChannelsFactory {
             return true;
         }catch(Exception e){
             this.chans = chans_aux;
-            return true;
+            return false;
         }
     }
 

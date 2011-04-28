@@ -32,9 +32,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +47,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 public class Somadroid extends ListActivity {
 	
@@ -152,10 +153,6 @@ public class Somadroid extends ListActivity {
         return list_populate;
     }
     
-    public void showInternetProblemMessage()
-    {	
-        Toast.makeText(this, "Internet problems", Toast.LENGTH_LONG).show();
-    }
     
     protected void onListItemClick(ListView l, View v, int position, long id) 
     {
@@ -170,6 +167,14 @@ public class Somadroid extends ListActivity {
         startActivity(intent);
 
     }
+    
+    
+    protected void cleanExit() {
+        created = false;
+        pa.cancel(true);
+        handler.removeMessages(0);
+        this.finish();
+    }
 
     public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
        
@@ -181,6 +186,31 @@ public class Somadroid extends ListActivity {
         {
             super();
             this.output_visible = output_visible;
+        }
+        
+        protected void onFail()
+        {
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Somadroid.this.pa = new PrepareAdapter(true);
+                        Somadroid.this.pa.execute();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        Somadroid.this.cleanExit();
+                        break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Somadroid.this);
+            builder.setMessage("Connection problems..Do you want to retry?");
+            builder.setPositiveButton("Yes", dialogClickListener);
+            builder.setNegativeButton("No", dialogClickListener).show();
         }
         
         @Override
@@ -206,8 +236,12 @@ public class Somadroid extends ListActivity {
         	
             if(new_adapter==null)
             {
-                dialog.dismiss();
-                Somadroid.this.showInternetProblemMessage();
+                if(this.output_visible)
+                {
+                    dialog.dismiss();
+                    this.onFail();
+                    return;
+                }
             }
         	
             else
