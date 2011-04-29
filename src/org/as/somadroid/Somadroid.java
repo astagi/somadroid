@@ -32,13 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import org.as.somadroid.R;
@@ -50,9 +46,8 @@ import android.widget.SimpleAdapter;
 
 public class Somadroid extends ListActivity {
 	
-    private ListView myView;
     private static boolean created = false;
-    private PrepareAdapter pa = new PrepareAdapter(!created);
+    private PrepareAdapter pa = new PrepareAdapter(this, !created);
     private static Context context;
     private static SimpleAdapter current_adapter;
     private static final ChannelsFactory channel_factory = new ChannelsFactory();
@@ -66,7 +61,6 @@ public class Somadroid extends ListActivity {
         context = this.getApplicationContext();
         handler.removeMessages(0);
         setContentView(R.layout.custom_list_view);
-        myView = (ListView)this.getListView();
         
         if(created)   
             this.setAdapterAndNotify(current_adapter);
@@ -76,6 +70,7 @@ public class Somadroid extends ListActivity {
         
     }
     
+    
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -84,7 +79,9 @@ public class Somadroid extends ListActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    private void doTheAutoRefresh(long time) {
+    
+    
+    void doTheAutoRefresh(long time) {
         handler.removeMessages(0);
         handler.postDelayed(new Runnable() {
 
@@ -92,7 +89,7 @@ public class Somadroid extends ListActivity {
             public void run() {
                 if(!pa.isCancelled())
                     pa.cancel(true);
-                pa = new PrepareAdapter(false);
+                pa = new PrepareAdapter(Somadroid.this, false);
                 pa.execute();
             }
                  
@@ -176,98 +173,10 @@ public class Somadroid extends ListActivity {
         this.finish();
     }
 
-    public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
-       
-        private ProgressDialog dialog;
-        private boolean output_visible;
-        
-        
-        public PrepareAdapter(boolean output_visible)
-        {
-            super();
-            this.output_visible = output_visible;
-        }
-        
-        protected void onFail()
-        {
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            Somadroid.this.pa = new PrepareAdapter(true);
-                            Somadroid.this.pa.execute();
-                            break;
-    
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            Somadroid.this.cleanExit();
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(Somadroid.this);
-            builder.setMessage("Connection problems..Do you want to retry?");
-            builder.setPositiveButton("Yes", dialogClickListener);
-            builder.setNegativeButton("No", dialogClickListener).show();
-        }
-        
-        @Override
-        protected void onPreExecute() {
-
-            if(!this.output_visible)
-                return;
-        	
-            dialog = new ProgressDialog(Somadroid.this);
-            dialog.setMessage("Loading stations...");
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(false);
-            dialog.show();
-            
-        }
-
-        @Override
-        protected SimpleAdapter doInBackground(Void... params) {
-            return Somadroid.this.getNewAdapter();
-        }
-
-        protected void onPostExecute(SimpleAdapter new_adapter) {
-        	
-            if(new_adapter==null)
-            {
-                if(this.output_visible)
-                {
-                    dialog.dismiss();
-                    this.onFail();
-                    return;
-                }
-            }
-        	
-            else
-            {
-                //Get the top position from the first visible element
-                int idx = Somadroid.this.myView.getFirstVisiblePosition();
-                View vfirst = Somadroid.this.myView.getChildAt(0);
-                int pos = 0;
-                
-                if (vfirst != null) 
-                    pos = vfirst.getTop();
-               
-                //Set list infos
-                Somadroid.this.setAdapterAndNotify(new_adapter);
-                //Restore the position
-                Somadroid.this.myView.setSelectionFromTop(idx, pos);
-	        	
-                if(this.output_visible)
-                    dialog.dismiss();
-	       		
-                GlobalSpace.notify.notifyRadio();
-            }
-        	
-            doTheAutoRefresh(Consts.REFRESH_DELAY);
-
-        }
+    public void retryFeed() {
+        pa = new PrepareAdapter(this, true);
+        pa.execute();        
     }
     
 }

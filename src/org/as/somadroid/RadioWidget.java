@@ -83,7 +83,8 @@ public class RadioWidget extends LinearLayout {
         radio_notification.notifyStop();
     }
     
-    private void initialize(){
+    private void initialize()
+    {
     	
         this.updateMe();
     	
