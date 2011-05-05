@@ -36,14 +36,50 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
-public class ChannelsFactory {
+public class ChannelsFactory implements Controller {
 	
     private Document channels_xml;
+    private int times_faliure;
     private CopyOnWriteArrayList <Channel> chans = null;
+    private CopyOnWriteArrayList <ChannelAndView> channelsview = new CopyOnWriteArrayList <ChannelAndView> ();
 	
+    
+    private class ChannelAndView {
+
+        private ChannelView chw; 
+        private Channel ch;
+        
+        public ChannelAndView(ChannelView chw, Channel ch) {
+            this.ch = ch;
+            this.chw = chw;
+        }
+        
+        public ChannelView getChannelView()
+        {
+            return this.chw;
+        }
+        
+        public Channel getChannel()
+        {
+            return this.ch;
+        }
+
+    };
+    
+    
     public ChannelsFactory()
     {
         this.channels_xml = null;
+    }
+    
+    public void addChannelAndView(ChannelView chw, Channel ch)
+    {
+        this.channelsview.add(new ChannelAndView(chw, ch));
+    }
+    
+    public void removeController(ChannelView chw)
+    {
+        this.channelsview.remove(chw);
     }
 	
     public boolean createChannels()
@@ -90,12 +126,25 @@ public class ChannelsFactory {
                     }
 	
                 }
-            }
+            }     
 			
+            this.times_faliure = 0;
             return true;
+            
         }catch(Exception e){
             this.chans = chans_aux;
+            this.times_faliure ++;
             return false;
+        }
+        
+    }
+    
+    @Override
+    public void inform(){
+        for(int i = 0; i < this.channelsview.size(); i++)
+        {
+            Channel to_send = this.channelsview.get(i).getChannel();
+            this.channelsview.get(i).getChannelView().updateChannel(to_send);
         }
     }
 

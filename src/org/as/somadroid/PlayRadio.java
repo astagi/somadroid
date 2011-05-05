@@ -41,7 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class PlayRadio extends ListActivity {
+public class PlayRadio extends ListActivity implements ChannelView{
 
     private TextView radio_title;
     private TextView radio_dj;
@@ -57,13 +57,13 @@ public class PlayRadio extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        channel = GlobalSpace.channel_for_activity;
+        channel = ((SomadroidApp)this.getApplication()).channel_for_activity;
+        ((SomadroidApp)this.getApplication()).channel_factory.addChannelAndView(this, channel);
         this.radio_w = new RadioWidget(this);
-        this.radio_w.setChannelToPlay(this.channel);
+        this.radio_w.setChannelToPlay(channel);
         setContentView(R.layout.list_view_songs);
         this.populateRadioList();
         this.getElementsFromLayout();
-        GlobalSpace.notify.addActivity(this);
         
     }
     
@@ -83,6 +83,7 @@ public class PlayRadio extends ListActivity {
         this.radio_dj.setText("Dj: " + this.channel.getAttribute("dj"));
         this.radio_description.setText(this.channel.getAttribute("description"));
     }
+    
     
     private void populateRadioList() {
     	
@@ -113,7 +114,13 @@ public class PlayRadio extends ListActivity {
 
     public void updateMe() {
         this.populateRadioList();
-        this.radio_w.updateMe();
     }
+
+    @Override
+    public void updateChannel(Channel currentCh) {
+        this.populateRadioList();
+        
+    }
+
     
 }

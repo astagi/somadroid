@@ -64,8 +64,8 @@
 	  android:id="@+id/radiowidget"
 	  xmlns:android="http://schemas.android.com/apk/res/android"
 	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content">
-	  
-	  
+	  android:background="#c0ffee"
+	  android:layout_height="80dip">	  
 	  </LinearLayout>
+	  
 </LinearLayout>

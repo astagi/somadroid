@@ -14,11 +14,15 @@ public final class R {
         public static final int background=0x7f020000;
         public static final int icon=0x7f020001;
         public static final int notification_icon=0x7f020002;
+        public static final int play=0x7f020003;
+        public static final int stop=0x7f020004;
     }
     public static final class id {
+        public static final int about=0x7f050012;
         public static final int current_song_auth=0x7f05000f;
         public static final int current_song_title=0x7f050010;
         public static final int currentplay=0x7f050003;
+        public static final int exit=0x7f050013;
         public static final int img=0x7f050000;
         public static final int img_current_radio=0x7f050007;
         public static final int listeners=0x7f050002;
@@ -32,6 +36,7 @@ public final class R {
         public static final int song_auth=0x7f050005;
         public static final int song_time=0x7f050004;
         public static final int song_title=0x7f050006;
+        public static final int stop=0x7f050011;
         public static final int title=0x7f050001;
     }
     public static final class layout {
@@ -41,8 +46,12 @@ public final class R {
         public static final int list_view_songs=0x7f030003;
         public static final int main=0x7f030004;
         public static final int radiowidget=0x7f030005;
+        public static final int usermenu=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int menu_about=0x7f040002;
+        public static final int menu_exit=0x7f040003;
+        public static final int menu_stop=0x7f040001;
     }
 }

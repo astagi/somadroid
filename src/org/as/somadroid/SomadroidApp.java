@@ -20,7 +20,7 @@
 
 /***
  * 
- * Module name: Notifier
+ * Module name: GlobalSpace
  * Date: 12/04/11
  * Author: Andrea Stagi <stagi.andrea(at)gmail.com>
  *
@@ -28,19 +28,13 @@
 
 package org.as.somadroid;
 
-public class Notifier {
-	
-    private PlayRadio activity = null;
-	
-    public void addActivity(PlayRadio pl)
-    {
-        activity = pl;
-    }
-	
-    public void notifyRadio()
-    {
-        if(activity != null)
-            activity.updateMe();
-    }
+import android.app.Application;
 
+
+public class SomadroidApp extends Application {
+
+    public Channel channel_for_activity = null;
+    public RadioController radio_controller = new RadioController(new Radio());
+    public final ChannelsFactory channel_factory = new ChannelsFactory();
+	
 }

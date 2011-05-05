@@ -40,19 +40,28 @@ import android.os.Handler;
 import org.as.somadroid.R;
 
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class Somadroid extends ListActivity {
+public class Somadroid extends ListActivity implements RadioView{
 	
     private static boolean created = false;
     private PrepareAdapter pa = new PrepareAdapter(this, !created);
     private static Context context;
     private static SimpleAdapter current_adapter;
-    private static final ChannelsFactory channel_factory = new ChannelsFactory();
+    
+    private Menu mymenu = null;
+    
+    private boolean isplaying_menu;
     
     private static final Handler handler = new Handler();
+    
+    private BufferingDialog buffer_dialog;
+
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +71,14 @@ public class Somadroid extends ListActivity {
         handler.removeMessages(0);
         setContentView(R.layout.custom_list_view);
         
+        ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
+                
         if(created)   
             this.setAdapterAndNotify(current_adapter);
         
         pa.execute();
         created = true;
+        this.buffer_dialog = new BufferingDialog(Somadroid.this);
         
     }
     
@@ -96,15 +108,14 @@ public class Somadroid extends ListActivity {
          }, time);
     }
     
+    
     public SimpleAdapter getNewAdapter()
     {
     	
-        if(!channel_factory.createChannels())
-        {
+        if(!((SomadroidApp)this.getApplication()).channel_factory.createChannels())
             return null;
-        }
    		
-        CopyOnWriteArrayList <Channel> chans2 = channel_factory.getChannels();  
+        CopyOnWriteArrayList <Channel> chans2 = ((SomadroidApp)this.getApplication()).channel_factory.getChannels();  
                 
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
 	
@@ -121,16 +132,20 @@ public class Somadroid extends ListActivity {
         return adapter;
     }
     
+    
     public void setAdapterAndNotify(SimpleAdapter adapter)
     {
         this.setListAdapter(adapter);
         adapter.notifyDataSetChanged();
+        ((SomadroidApp)this.getApplication()).channel_factory.inform();
     }
+    
 
     public static Context app_context()
     {
         return context;
     }
+    
     
     private ArrayList<HashMap<String,Object>>  populateRadioList(CopyOnWriteArrayList <Channel> arr) {
     	
@@ -156,17 +171,56 @@ public class Somadroid extends ListActivity {
         super.onListItemClick(l, v, position, id);
         HashMap o = (HashMap)this.getListAdapter().getItem(position);
         Channel ch = (Channel)o.get("channel");
-        Intent intent = new Intent(this, PlayRadio.class);
+        Intent intent = new Intent(this, PlayRadio.class);      
         
-        GlobalSpace.channel_for_activity = ch;
-        GlobalSpace.radio.setContext(this);
+        ((SomadroidApp)this.getApplication()).channel_for_activity = ch;
         
         startActivity(intent);
 
     }
     
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) 
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.layout.usermenu, menu);
+        this.mymenu = menu;
+        
+        this.updateMenu();
+        
+        return true;
+    }
+    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {
+        
+        switch (item.getItemId()) 
+        {
+            case R.id.stop:
+                if(this.isplaying_menu)
+                    ((SomadroidApp)this.getApplication()).radio_controller.stop();
+                else
+                {
+                    buffer_dialog.start();
+                    ((SomadroidApp)this.getApplication()).radio_controller.play();
+                }
+                return true;
+            case R.id.about:
+                return true;
+            case R.id.exit:
+                this.cleanExit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    
     protected void cleanExit() {
+        ((SomadroidApp) this.getApplication()).radio_controller.stop();
         created = false;
         pa.cancel(true);
         handler.removeMessages(0);
@@ -178,5 +232,31 @@ public class Somadroid extends ListActivity {
         pa = new PrepareAdapter(this, true);
         pa.execute();        
     }
+
+
+    @Override
+    public void updateStatus(boolean isPlaying, Channel currentCh) {    
+        
+        this.isplaying_menu = isPlaying;
+        
+        if(this.buffer_dialog != null)
+            this.buffer_dialog.stop();
+        
+        if(this.mymenu == null)
+            return;
+        
+        this.updateMenu();
+        
+    }
+    
+    
+    public void updateMenu()
+    {
+        if(this.isplaying_menu)
+            this.mymenu.getItem(0).setTitle("Pause");
+        else
+            this.mymenu.getItem(0).setTitle("Play");
+    }
+    
     
 }

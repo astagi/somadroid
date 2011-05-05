@@ -96,7 +96,7 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
             if(this.output_visible)
                 dialog.dismiss();
             
-            GlobalSpace.notify.notifyRadio();
+
         }
         
         soma.doTheAutoRefresh(Consts.REFRESH_DELAY);

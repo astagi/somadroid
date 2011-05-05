@@ -29,24 +29,16 @@
 
 package org.as.somadroid;
 
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 
 public class Radio {
 	
-    private MediaPlayer player = null;
+
     private Channel current_ch = null;
     private Uri uri_context = null;
-    private Context myContext = null;
+    private boolean is_playing = false;
 
-	
-    public void setContext(Context context)
-    {
-        this.myContext = context;
-    }
-	
+    
     public boolean isPlayingChannel(Channel ch)
     {
         if (this.current_ch == null)
@@ -69,36 +61,20 @@ public class Radio {
         this.uri_context = Uri.parse(this.current_ch.getPlaylist("slow",0).getFile(0).getUrl());
     }
 	
+    public void setIsPlaying(boolean is_playing)
+    {
+        this.is_playing = is_playing;
+    }
+    
     public boolean isPlaying()
     {
-        if(this.player == null)
-            return false;
-        return this.player.isPlaying();
+        return this.is_playing;
     }
 	
-    public void stop()
+    
+    public Uri getUri()
     {
-        this.player.stop();
-    }
-	
-    public void play()
-    {
-		        
-        if(this.player == null)
-            this.player = MediaPlayer.create(myContext, uri_context);
-        else
-            try {
-                this.player.stop();
-                this.player = MediaPlayer.create(myContext, uri_context);
-            } catch (Exception e) {}
-
-        this.player.setOnPreparedListener(new OnPreparedListener() { 
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-        });
-		
+        return this.uri_context;
     }
 
 }
