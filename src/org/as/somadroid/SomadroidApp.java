@@ -20,7 +20,7 @@
 
 /***
  * 
- * Module name: GlobalSpace
+ * Module name: SomadroidApp
  * Date: 12/04/11
  * Author: Andrea Stagi <stagi.andrea(at)gmail.com>
  *
