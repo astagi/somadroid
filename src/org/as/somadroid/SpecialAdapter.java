@@ -37,7 +37,7 @@ import android.widget.SimpleAdapter;
 
 public class SpecialAdapter extends SimpleAdapter {
 	
-    private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
+    private int[] colors = new int[] { 0xFF8cba18, 0xFF5e7d08 };
 
     public SpecialAdapter(Context context, ArrayList<HashMap<String, Object>> list, int resource, String[] from, int[] to) {
         super(context, list, resource, from, to);

@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 	  
-		<ImageButton
-			android:id="@+id/play_button"
-			android:layout_width="80dip"
-			android:layout_height="80dip"
-			android:src="@drawable/play" />
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:src="@drawable/play" />
 			
-		<LinearLayout
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 			
-			<TextView android:id="@+id/current_song_auth"         
-				android:textSize="16sp"         
-				android:textStyle="bold" 
-				android:textColor="#FFFF00"        
-				android:layout_width="fill_parent"         
-				android:layout_height="wrap_content"
-				android:layout_weight="0" android:layout_marginLeft="10dip"/>
+        <TextView android:id="@+id/current_song_auth"         
+            android:textSize="16sp"         
+            android:textStyle="bold" 
+            android:textColor="#FFFFFF"        
+            android:layout_width="fill_parent"         
+            android:layout_height="wrap_content"
+            android:layout_weight="0" android:layout_marginLeft="10dip"
+            android:shadowColor="#000000"
+            android:shadowRadius="1.5"
+            android:shadowDx="1"
+            android:shadowDy="1"/>
 			  	
-			<TextView android:id="@+id/current_song_title"         
-			  	android:textSize="12sp"         
-			  	android:textStyle="bold"      
-			  	android:layout_width="fill_parent"         
-			  	android:layout_height="wrap_content"
-			  	android:layout_weight="0"  android:layout_marginLeft="10dip"/>
+        <TextView android:id="@+id/current_song_title"         
+            android:textSize="12sp"         
+            android:textStyle="bold"    
+            android:textColor="#FFFFFF"        			  	
+            android:layout_width="fill_parent"         
+            android:layout_height="wrap_content"
+            android:layout_weight="0"  android:layout_marginLeft="10dip"
+            android:shadowColor="#000000"
+            android:shadowRadius="1.5"
+            android:shadowDx="1"
+            android:shadowDy="1"/>
 		  	
-		</LinearLayout>
-	  
+    </LinearLayout>	  
 	  
 </LinearLayout>
