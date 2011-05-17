@@ -29,11 +29,14 @@
 
 package org.as.somadroid;
 
+import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import android.util.Log;
 
 
 public class ChannelsFactory implements Controller {
@@ -42,7 +45,7 @@ public class ChannelsFactory implements Controller {
     private int times_faliure;
     private CopyOnWriteArrayList <Channel> chans = null;
     private CopyOnWriteArrayList <ChannelAndView> channelsview = new CopyOnWriteArrayList <ChannelAndView> ();
-	
+	private final int MAX_FALIURES = 5;
     
     private class ChannelAndView {
 
@@ -128,12 +131,10 @@ public class ChannelsFactory implements Controller {
                 }
             }     
 			
-            this.times_faliure = 0;
             return true;
             
         }catch(Exception e){
             this.chans = chans_aux;
-            this.times_faliure ++;
             return false;
         }
         
@@ -153,9 +154,24 @@ public class ChannelsFactory implements Controller {
         return this.chans;
     }
 	
+    public boolean isFailing()
+    {
+        return this.times_faliure == this.MAX_FALIURES;
+    }
+    
     private void feedChannels()
     {
         this.channels_xml = Utils.XMLFromUrl(Consts.CHANNELS_URL);
+        
+        if(this.channels_xml == null)
+        {
+            this.times_faliure = (this.times_faliure + 1) % this.MAX_FALIURES ;
+            
+            if(this.chans == null)
+                this.times_faliure = this.MAX_FALIURES;           
+        }
+        else
+            this.times_faliure = 0;
     }
 
 }

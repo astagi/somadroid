@@ -28,10 +28,12 @@
 
 package org.as.somadroid;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -44,6 +46,7 @@ import org.xml.sax.SAXException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 public class Utils {
 	
@@ -74,17 +77,18 @@ public class Utils {
 
         FileOutputStream fos = null;
 		
-        try
-        {
+        try {
             fos = Somadroid.app_context().openFileOutput(filename, Context.MODE_PRIVATE);
             bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             return Somadroid.app_context().getFilesDir() + "/" + filename;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(Exception ex)
-        {
-            return "";					
-        }
+        
+        return "";
 		
     }
 	
@@ -100,17 +104,34 @@ public class Utils {
     public static InputStream StreamFromUrl(String exturl)
     {
 		
+        URL url;
         try {
-            URL url = new URL(exturl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setConnectTimeout(2000);
-            url.openConnection();
+            url = new URL(exturl);
+            HttpURLConnection urlConnection;
+            urlConnection = (HttpURLConnection) url.openConnection();
             return urlConnection.getInputStream();
-
-        } catch (Exception ex) {
-            return null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         
+        return null;
+        
+    }
+    
+
+    
+    public static Uri songInAmazon(Song song)
+    {
+        return Uri.parse("http://somafm.com/buy/multibuy.cgi?mode=amazon&title="
+                + song.getTitle() + "&artist=" + song.getAuthor());
+    }
+    
+    public static Uri songInGoogle(Song song)
+    {
+        String search_str = song.getTitle() + " " + song.getAuthor();
+        return Uri.parse("http://www.google.com/search?q=" + search_str);
     }
 	
     public static Document XMLFromUrl(String xmlurl)
@@ -135,11 +156,11 @@ public class Utils {
     		
         } catch (SAXException e) {
             e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        
+        return null;
     }
 
 }

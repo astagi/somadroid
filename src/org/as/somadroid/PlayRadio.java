@@ -33,11 +33,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import org.as.somadroid.R;
 
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
@@ -64,7 +74,50 @@ public class PlayRadio extends ListActivity implements ChannelView{
         setContentView(R.layout.list_view_songs);
         this.populateRadioList();
         this.getElementsFromLayout();
+        this.registerForContextMenu(this.getListView());
         
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+            info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        } catch (ClassCastException e) {
+            return;
+        }
+        
+        HashMap o = (HashMap)this.getListAdapter().getItem(info.position);
+        Song song = (Song)o.get("song");
+
+        menu.setHeaderTitle(song.getAuthor() + " - " + song.getTitle());
+        menu.add(0, 0, 0, "Search in Amazon.com");
+        menu.add(0, 1, 0, "Search in Google.com");
+          
+    }
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+            info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        } catch (ClassCastException e) {
+            return false;
+        }
+        
+        HashMap o = (HashMap)this.getListAdapter().getItem(info.position);
+        Song song = (Song)o.get("song");
+
+        switch (item.getItemId()) {
+            case 0:
+                this.openBrowser(Utils.songInAmazon(song));
+                return true;
+            case 1:
+                this.openBrowser(Utils.songInGoogle(song));
+                return true;
+        }
+        return false;
     }
     
     protected void getElementsFromLayout()
@@ -98,6 +151,7 @@ public class PlayRadio extends ListActivity implements ChannelView{
             temp.put("song_time",  songs.get(i).getTime());
             temp.put("song_auth",  songs.get(i).getAuthor());
             temp.put("song_title", songs.get(i).getTitle());
+            temp.put("song", songs.get(i));
 
             list.add(temp);
         }
@@ -120,6 +174,11 @@ public class PlayRadio extends ListActivity implements ChannelView{
     public void updateChannel(Channel currentCh) {
         this.populateRadioList();
         
+    }
+    
+    public void openBrowser(Uri uri)
+    {
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
     

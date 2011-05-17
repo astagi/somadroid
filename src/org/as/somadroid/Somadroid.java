@@ -32,8 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,9 +78,9 @@ public class Somadroid extends ListActivity implements RadioView{
         if(created)   
             this.setAdapterAndNotify(current_adapter);
         
+        this.buffer_dialog = new BufferingDialog(this);
         pa.execute();
         created = true;
-        this.buffer_dialog = new BufferingDialog(Somadroid.this);
         
     }
     
@@ -112,11 +114,15 @@ public class Somadroid extends ListActivity implements RadioView{
     public SimpleAdapter getNewAdapter()
     {
     	
-        if(!((SomadroidApp)this.getApplication()).channel_factory.createChannels())
+        ((SomadroidApp)this.getApplication()).channel_factory.createChannels();
+        
+        if(((SomadroidApp)this.getApplication()).channel_factory.isFailing())
+        {
             return null;
-   		
+        }
+
         CopyOnWriteArrayList <Channel> chans2 = ((SomadroidApp)this.getApplication()).channel_factory.getChannels();  
-                
+        
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
 	
         if(chans2 != null)
@@ -256,6 +262,31 @@ public class Somadroid extends ListActivity implements RadioView{
             this.mymenu.getItem(0).setTitle("Pause");
         else
             this.mymenu.getItem(0).setTitle("Play");
+    }
+    
+    protected void onFail()
+    {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        retryFeed();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        cleanExit();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Connection problems..Do you want to retry?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", dialogClickListener);
+        builder.setNegativeButton("No", dialogClickListener).show();
     }
     
     

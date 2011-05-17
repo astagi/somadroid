@@ -58,6 +58,7 @@ public class RadioNotification {
         this.notification = new Notification(icon, tickerText, when);
         this.notification.flags |= this.notification.FLAG_NO_CLEAR;
         Intent notificationIntent = new Intent(this.current_activity, this.current_activity.getClass());
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.contentIntent = PendingIntent.getActivity(this.current_activity, 0, notificationIntent, 0);
     }
 

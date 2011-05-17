@@ -29,9 +29,7 @@
 
 package org.as.somadroid;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.SimpleAdapter;
@@ -48,31 +46,6 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
         super();
         this.soma = soma;
         this.output_visible = output_visible;
-    }
-    
-    protected void onFail()
-    {
-
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        soma.retryFeed();
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        soma.cleanExit();
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(soma);
-        builder.setMessage("Connection problems..Do you want to retry?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", dialogClickListener);
-        builder.setNegativeButton("No", dialogClickListener).show();
     }
     
     @Override
@@ -99,11 +72,9 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
         if(new_adapter==null)
         {
             if(this.output_visible)
-            {
                 dialog.dismiss();
-                this.onFail();
-                return;
-            }
+            
+            soma.onFail();
         }
         
         else
@@ -124,10 +95,10 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
             if(this.output_visible)
                 dialog.dismiss();
             
+            soma.doTheAutoRefresh(Consts.REFRESH_DELAY);
 
         }
         
-        soma.doTheAutoRefresh(Consts.REFRESH_DELAY);
 
     }
 }

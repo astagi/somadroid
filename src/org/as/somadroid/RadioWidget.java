@@ -21,7 +21,7 @@
 /***
  * 
  * Module name: RadioWidget
- * Description: a widget to add to PlayRadio
+ * Description: a widget added to PlayRadio
  * Date: 06/05/11
  * Author: Andrea Stagi <stagi.andrea(at)gmail.com>
  *
