@@ -63,8 +63,8 @@ public class RadioController implements Controller {
     {
         radio.setIsPlaying(true);
         prepare_radio = new PrepareRadio(activity);
-        //this.prepareRadioHandler();   
-        RadioController.this.prepare_radio.execute();
+        this.prepareRadioHandler();   
+        //RadioController.this.prepare_radio.execute();
     }
     
     private void prepareRadioHandler()
@@ -131,7 +131,6 @@ public class RadioController implements Controller {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            player.stop();
             player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
             
             player.setOnPreparedListener(new OnPreparedListener() { 
