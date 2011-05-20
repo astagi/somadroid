@@ -31,8 +31,12 @@ package org.as.somadroid;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.os.AsyncTask;
 import android.os.Handler;
 
 public class RadioController implements Controller {
@@ -41,6 +45,7 @@ public class RadioController implements Controller {
     private MediaPlayer player = new MediaPlayer();
     private ArrayList <RadioView> radioview = new ArrayList <RadioView>();
     Handler handler = new Handler();
+    PrepareRadio prepare_radio = null;
 
     
     public RadioController(Radio radio)
@@ -48,45 +53,31 @@ public class RadioController implements Controller {
         this.radio = radio;
     }
     
-    public void play(Channel ch)
+    public void play(Activity activity, Channel ch)
     {
         this.radio.setChannel(ch);
-        this.play();
+        this.play(activity);
     }
     
-    public void play()
+    public void play(Activity activity)
     {
         radio.setIsPlaying(true);
-
-        
+        prepare_radio = new PrepareRadio(activity);
+        //this.prepareRadioHandler();   
+        RadioController.this.prepare_radio.execute();
+    }
+    
+    private void prepareRadioHandler()
+    {
+        handler.removeMessages(0);
         handler.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                if(player == null)
-                    player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
-                else
-                {
-                    try {
-                        player.stop();
-                        player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
-                    } catch (Exception e) 
-                    {
-                        radio.setIsPlaying(false);
-                    }
-                }
-                
-                player.setOnPreparedListener(new OnPreparedListener() { 
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.start();
-                        RadioController.this.inform();
-                    }
-                });
+                RadioController.this.prepare_radio.execute();
             }
                  
          }, 100);
-        
     }
     
     public void stop()
@@ -115,4 +106,59 @@ public class RadioController implements Controller {
         return this.radio.isPlaying();
     }
 
+    
+    public class PrepareRadio extends AsyncTask<Void,Void,Boolean > {
+        
+        private ProgressDialog dialog;  
+        Activity activity;
+        
+        public PrepareRadio(Activity activity)
+        {
+            this.activity = activity;
+        }
+        
+        @Override
+        protected void onPreExecute() {
+            
+            dialog = new ProgressDialog(activity);
+            dialog.setMessage("Buffering...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+            
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            player.stop();
+            player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
+            
+            player.setOnPreparedListener(new OnPreparedListener() { 
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                    radio.setIsPlaying(true);
+                }
+            });
+            
+            player.setOnErrorListener(new OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer arg0, int arg1,
+                        int arg2) {
+                    radio.setIsPlaying(false);
+                    return false;
+                } 
+            });
+                
+            return true;
+         
+        }
+
+        protected void onPostExecute(Boolean new_adapter) {
+            RadioController.this.inform();
+            dialog.dismiss();
+        }
+    }
+    
 }

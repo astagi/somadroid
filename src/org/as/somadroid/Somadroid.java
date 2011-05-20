@@ -62,8 +62,6 @@ public class Somadroid extends ListActivity implements RadioView{
     
     private static final Handler handler = new Handler();
     
-    private BufferingDialog buffer_dialog;
-
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +76,6 @@ public class Somadroid extends ListActivity implements RadioView{
         if(created)   
             this.setAdapterAndNotify(current_adapter);
         
-        this.buffer_dialog = new BufferingDialog(this);
         pa.execute();
         created = true;
         
@@ -175,12 +172,8 @@ public class Somadroid extends ListActivity implements RadioView{
     protected void onListItemClick(ListView l, View v, int position, long id) 
     {
         super.onListItemClick(l, v, position, id);
-        HashMap o = (HashMap)this.getListAdapter().getItem(position);
-        Channel ch = (Channel)o.get("channel");
-        Intent intent = new Intent(this, PlayRadio.class);      
-        
-        ((SomadroidApp)this.getApplication()).channel_for_activity = ch;
-        
+        Intent intent = new Intent(this, PlayRadio.class);             
+        intent.putExtra("ch_number", position);
         startActivity(intent);
 
     }
@@ -210,8 +203,7 @@ public class Somadroid extends ListActivity implements RadioView{
                     ((SomadroidApp)this.getApplication()).radio_controller.stop();
                 else
                 {
-                    buffer_dialog.start();
-                    ((SomadroidApp)this.getApplication()).radio_controller.play();
+                    ((SomadroidApp)this.getApplication()).radio_controller.play(Somadroid.this);
                 }
                 return true;
             case R.id.about:
@@ -245,9 +237,6 @@ public class Somadroid extends ListActivity implements RadioView{
         
         this.isplaying_menu = isPlaying;
         
-        if(this.buffer_dialog != null)
-            this.buffer_dialog.stop();
-        
         if(this.mymenu == null)
             return;
         
@@ -259,9 +248,13 @@ public class Somadroid extends ListActivity implements RadioView{
     public void updateMenu()
     {
         if(this.isplaying_menu)
+        {
             this.mymenu.getItem(0).setTitle("Pause");
+            this.mymenu.getItem(0).setEnabled(true);
+        }
         else
             this.mymenu.getItem(0).setTitle("Play");
+
     }
     
     protected void onFail()

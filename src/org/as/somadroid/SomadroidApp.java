@@ -33,7 +33,6 @@ import android.app.Application;
 
 public class SomadroidApp extends Application {
 
-    public Channel channel_for_activity = null;
     public RadioController radio_controller = new RadioController(new Radio());
     public final ChannelsFactory channel_factory = new ChannelsFactory();
 	

@@ -36,18 +36,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import org.as.somadroid.R;
-
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
@@ -67,7 +62,8 @@ public class PlayRadio extends ListActivity implements ChannelView{
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        channel = ((SomadroidApp)this.getApplication()).channel_for_activity;
+        int n_channel = this.getIntent().getExtras().getInt("ch_number");
+        channel = ((SomadroidApp)this.getApplication()).channel_factory.getChannels().get(n_channel);
         ((SomadroidApp)this.getApplication()).channel_factory.addChannelAndView(this, channel);
         this.radio_w = new RadioWidget(this);
         this.radio_w.setChannelToPlay(channel);
@@ -181,5 +177,4 @@ public class PlayRadio extends ListActivity implements ChannelView{
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
-    
 }

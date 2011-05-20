@@ -48,8 +48,6 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
 	private boolean play = false;
 	private Activity activity;
 	
-    private BufferingDialog buffer_dialog;
-	
 	
     public RadioWidget(Activity activity) {
         
@@ -77,13 +75,11 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
                 }
                 else
                 {
-                    RadioWidget.this.buffer_dialog.start();
-                    ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.play(RadioWidget.this.channel_to_play);
+                    ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.play(RadioWidget.this.activity, RadioWidget.this.channel_to_play);
                 }
             }
         });
         
-        this.buffer_dialog = new BufferingDialog(activity);
         ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.attach(this);
     }
 
@@ -100,7 +96,6 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
     public void updateStatus(boolean isPlaying, Channel currentCh) {
         
         this.play = isPlaying;
-        this.buffer_dialog.stop();
         
         if (!isPlaying)
         {
