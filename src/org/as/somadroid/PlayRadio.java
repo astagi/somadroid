@@ -54,7 +54,7 @@ public class PlayRadio extends ListActivity implements ChannelView{
     private ImageView radio_logo;
     private LinearLayout radio_w_layout;
     
-    private Channel channel;
+    private static Channel channel;
     private RadioWidget radio_w;
 
     
@@ -62,8 +62,12 @@ public class PlayRadio extends ListActivity implements ChannelView{
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        int n_channel = this.getIntent().getExtras().getInt("ch_number");
-        channel = ((SomadroidApp)this.getApplication()).channel_factory.getChannels().get(n_channel);
+        
+        try{
+            int n_channel = this.getIntent().getExtras().getInt("ch_number");
+            channel = ((SomadroidApp)this.getApplication()).channel_factory.getChannels().get(n_channel);
+        }catch(NullPointerException ex){}
+        
         ((SomadroidApp)this.getApplication()).channel_factory.addChannelAndView(this, channel);
         this.radio_w = new RadioWidget(this);
         this.radio_w.setChannelToPlay(channel);

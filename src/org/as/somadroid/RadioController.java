@@ -29,6 +29,7 @@
 
 package org.as.somadroid;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -136,8 +137,11 @@ public class RadioController implements Controller {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            player = null;
+            player.release();
             player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
+            
+            if(player == null)
+                return false;
             
             player.setOnPreparedListener(new OnPreparedListener() { 
                 @Override
@@ -160,9 +164,10 @@ public class RadioController implements Controller {
          
         }
 
-        protected void onPostExecute(Boolean new_adapter) {
+        protected void onPostExecute(Boolean result) {
             RadioController.this.inform();
-            player.start();
+            if(result != false)
+                player.start();
             dialog.dismiss();
         }
     }
