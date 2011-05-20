@@ -46,6 +46,7 @@ public class RadioController implements Controller {
     private ArrayList <RadioView> radioview = new ArrayList <RadioView>();
     Handler handler = new Handler();
     PrepareRadio prepare_radio = null;
+    Activity activity;
 
     
     public RadioController(Radio radio)
@@ -62,7 +63,8 @@ public class RadioController implements Controller {
     public void play(Activity activity)
     {
         radio.setIsPlaying(true);
-        prepare_radio = new PrepareRadio(activity);
+        this.activity = activity;
+        this.prepare_radio = new PrepareRadio(activity);
         this.prepareRadioHandler();   
         //RadioController.this.prepare_radio.execute();
     }
@@ -74,6 +76,9 @@ public class RadioController implements Controller {
 
             @Override
             public void run() {
+                if(!RadioController.this.prepare_radio.isCancelled())
+                    RadioController.this.prepare_radio.cancel(true);
+                RadioController.this.prepare_radio = new PrepareRadio(activity);
                 RadioController.this.prepare_radio.execute();
             }
                  
@@ -131,12 +136,13 @@ public class RadioController implements Controller {
         @Override
         protected Boolean doInBackground(Void... params) {
 
+            player = null;
             player = MediaPlayer.create(Somadroid.app_context(), radio.getUri());
             
             player.setOnPreparedListener(new OnPreparedListener() { 
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mp.start();
+                    //mp.start();
                     radio.setIsPlaying(true);
                 }
             });
@@ -156,6 +162,7 @@ public class RadioController implements Controller {
 
         protected void onPostExecute(Boolean new_adapter) {
             RadioController.this.inform();
+            player.start();
             dialog.dismiss();
         }
     }
