@@ -276,7 +276,7 @@ public class Somadroid extends ListActivity implements RadioView{
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Connection problems..Do you want to retry?");
+        builder.setMessage(this.getString(R.string.connection_problems));
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", dialogClickListener);
         builder.setNegativeButton("No", dialogClickListener).show();

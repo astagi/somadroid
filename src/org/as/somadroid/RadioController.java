@@ -29,7 +29,6 @@
 
 package org.as.somadroid;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -127,7 +126,7 @@ public class RadioController implements Controller {
         protected void onPreExecute() {
             
             dialog = new ProgressDialog(activity);
-            dialog.setMessage("Buffering...");
+            dialog.setMessage(activity.getString(R.string.buffering));
             dialog.setIndeterminate(true);
             dialog.setCancelable(false);
             dialog.show();

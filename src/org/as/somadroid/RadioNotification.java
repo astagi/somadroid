@@ -52,7 +52,7 @@ public class RadioNotification {
         this.mNotificationManager = (NotificationManager) this.current_activity.getSystemService(ns);
         
         int icon = R.drawable.notification_icon;
-        CharSequence tickerText = "SomaFm is playing";
+        CharSequence tickerText = current_activity.getString(R.string.notification_title);
         long when = System.currentTimeMillis();
 
         this.notification = new Notification(icon, tickerText, when);

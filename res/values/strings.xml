@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Somadroid</string>
+    
+    <string name="amazon_search">Search in Amazon.com</string>
+    <string name="google_search">Search in Google.com</string>
+    <string name="loading_stations">Loading stations...</string>
+    <string name="buffering">Buffering...</string>
+    <string name="notification_title">SomaFm is playing</string>
+    <string name="off_text">---------</string>
+    <string name="connection_problems">Connection problems..Do you want to retry?</string> 
     <string name="menu_stop">Stop</string>
     <string name="menu_about">About</string>
     <string name="menu_exit">Exit</string>

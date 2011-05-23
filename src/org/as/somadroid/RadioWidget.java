@@ -86,8 +86,8 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
 
     private void offMe()
     {
-        this.song_author.setText("----");
-        this.song_title.setText("----");
+        this.song_author.setText(activity.getString(R.string.off_text));
+        this.song_title.setText(activity.getString(R.string.off_text));
         radio_notification.notifyStop();
     }
 

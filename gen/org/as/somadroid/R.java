@@ -49,9 +49,16 @@ public final class R {
         public static final int usermenu=0x7f030006;
     }
     public static final class string {
+        public static final int amazon_search=0x7f040001;
         public static final int app_name=0x7f040000;
-        public static final int menu_about=0x7f040002;
-        public static final int menu_exit=0x7f040003;
-        public static final int menu_stop=0x7f040001;
+        public static final int buffering=0x7f040004;
+        public static final int connection_problems=0x7f040007;
+        public static final int google_search=0x7f040002;
+        public static final int loading_stations=0x7f040003;
+        public static final int menu_about=0x7f040009;
+        public static final int menu_exit=0x7f04000a;
+        public static final int menu_stop=0x7f040008;
+        public static final int notification_title=0x7f040005;
+        public static final int off_text=0x7f040006;
     }
 }

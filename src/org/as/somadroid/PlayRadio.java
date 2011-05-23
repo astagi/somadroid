@@ -92,8 +92,8 @@ public class PlayRadio extends ListActivity implements ChannelView{
         Song song = (Song)o.get("song");
 
         menu.setHeaderTitle(song.getAuthor() + " - " + song.getTitle());
-        menu.add(0, 0, 0, "Search in Amazon.com");
-        menu.add(0, 1, 0, "Search in Google.com");
+        menu.add(0, 0, 0, this.getString(R.string.amazon_search));
+        menu.add(0, 1, 0, this.getString(R.string.google_search));
           
     }
     

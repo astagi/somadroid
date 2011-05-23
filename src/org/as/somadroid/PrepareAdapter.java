@@ -55,7 +55,7 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
             return;
         
         dialog = new ProgressDialog(soma);
-        dialog.setMessage("Loading stations...");
+        dialog.setMessage(soma.getString(R.string.loading_stations));
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.show();
