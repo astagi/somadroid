@@ -62,6 +62,8 @@ public class RadioController implements Controller {
     
     public void play(Activity activity)
     {
+        if(radio.getChannel() == null)
+            return;
         radio.setIsPlaying(true);
         this.activity = activity;
         this.prepare_radio = new PrepareRadio(activity);
