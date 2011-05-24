@@ -33,7 +33,19 @@ import android.app.Application;
 
 public class SomadroidApp extends Application {
 
-    public RadioController radio_controller = new RadioController(new Radio());
+    public final RadioController radio_controller = new RadioController(new Radio());
     public final ChannelsFactory channel_factory = new ChannelsFactory();
+    private int last_channel_seen;
+	
+    public void setLastChSeen(int last_channel)
+    {
+        this.last_channel_seen = last_channel;
+    }
+
+    public int getLastChSeen()
+    {
+        return this.last_channel_seen;
+    }
+	
 	
 }

@@ -44,6 +44,7 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
     private TextView song_title;
     private ImageButton play_button;
 	private Channel channel_to_play;
+	private int n_channel_to_play;
 	private RadioNotification radio_notification;
 	private boolean play = false;
 	private Activity activity;
@@ -76,6 +77,7 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
                 else
                 {
                     ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.play(RadioWidget.this.activity, RadioWidget.this.channel_to_play);
+                    ((SomadroidApp)RadioWidget.this.activity.getApplication()).setLastChSeen(n_channel_to_play);
                 }
             }
         });
@@ -127,8 +129,9 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
     }
 
 
-    public void setChannelToPlay(Channel channel) {
+    public void setChannelToPlay(Channel channel, int n_channel_to_play) {
         this.channel_to_play = channel;
+        this.n_channel_to_play = n_channel_to_play;
     }
 
 }
