@@ -72,10 +72,12 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
             {
                 if (((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.isPlaying())
                 {
-                    ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.stop();   
+                    v.setEnabled(false);
+                    ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.stop();
                 }
                 else
                 {
+                    v.setEnabled(false);
                     ((SomadroidApp)RadioWidget.this.activity.getApplication()).radio_controller.play(RadioWidget.this.activity, RadioWidget.this.channel_to_play);
                     ((SomadroidApp)RadioWidget.this.activity.getApplication()).setLastChSeen(n_channel_to_play);
                 }
@@ -111,6 +113,8 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
             this.updateChannel(currentCh);
             RadioWidget.this.play_button.setImageResource(R.drawable.stop);
         }
+        
+        RadioWidget.this.play_button.setEnabled(true);
         
     }
 
