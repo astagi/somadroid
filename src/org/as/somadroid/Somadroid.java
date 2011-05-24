@@ -250,10 +250,13 @@ public class Somadroid extends ListActivity implements RadioView{
         if(this.isplaying_menu)
         {
             this.mymenu.getItem(0).setTitle("Pause");
-            this.mymenu.getItem(0).setEnabled(true);
+            this.mymenu.getItem(0).setIcon(android.R.drawable.ic_media_pause);
         }
         else
+        {
             this.mymenu.getItem(0).setTitle("Play");
+            this.mymenu.getItem(0).setIcon(android.R.drawable.ic_media_play);
+        }
 
     }
     
