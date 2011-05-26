@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -207,6 +208,7 @@ public class Somadroid extends ListActivity implements RadioView{
                 }
                 return true;
             case R.id.about:
+                this.showAbout();
                 return true;
             case R.id.exit:
                 this.cleanExit();
@@ -217,6 +219,15 @@ public class Somadroid extends ListActivity implements RadioView{
     }
     
     
+    private void showAbout() {
+        Dialog about = new Dialog(this);
+        about.setContentView(R.layout.about);  
+        about.setTitle("Somadroid");
+        about.setCancelable(true);
+        about.show();
+    }
+
+
     protected void cleanExit() {
         ((SomadroidApp) this.getApplication()).radio_controller.stop();
         created = false;

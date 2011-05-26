@@ -166,9 +166,19 @@ public class RadioController implements Controller {
         }
 
         protected void onPostExecute(Boolean result) {
-            RadioController.this.inform();
             if(result != false)
+            {
                 player.start();
+            }
+            else
+            {
+                player = new MediaPlayer();
+                radio.setIsPlaying(false);
+            }
+            
+            RadioController.this.inform();
+
+                
             dialog.dismiss();
         }
     }

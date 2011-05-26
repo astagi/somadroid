@@ -9,6 +9,13 @@
     <string name="notification_title">SomaFm is playing</string>
     <string name="off_text">---------</string>
     <string name="connection_problems">Connection problems..Do you want to retry?</string> 
+    
+    <string name="description_text">A light and free client for SomaFm</string>
+
+    
+    <string name="about_text">Developed by Andrea Stagi. 
+    Thanks to Ale Pescini, Marta Calistri and Andrea Grandi for all their amazing work</string>
+    
     <string name="menu_stop">Stop</string>
     <string name="menu_about">About</string>
     <string name="menu_exit">Exit</string>
