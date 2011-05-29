@@ -34,7 +34,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,7 +49,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class Somadroid extends ListActivity implements RadioView{
+public class Somadroid extends SomaActivity implements RadioView{
 	
     private static boolean created = false;
     private PrepareAdapter pa = new PrepareAdapter(this, !created);
@@ -219,17 +218,8 @@ public class Somadroid extends ListActivity implements RadioView{
     }
     
     
-    private void showAbout() {
-        Dialog about = new Dialog(this);
-        about.setContentView(R.layout.about);  
-        about.setTitle("Somadroid");
-        about.setCancelable(true);
-        about.show();
-    }
-
-
     protected void cleanExit() {
-        ((SomadroidApp) this.getApplication()).radio_controller.stop();
+        super.cleanExit();
         created = false;
         pa.cancel(true);
         handler.removeMessages(0);
