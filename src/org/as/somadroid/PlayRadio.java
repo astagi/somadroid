@@ -165,6 +165,7 @@ public class PlayRadio extends SomaActivity implements ChannelView{
     
     protected void cleanExit() {
         super.cleanExit();
+        this.setResult(Consts.CLOSE_REQUEST);
         this.finish();
     }
     

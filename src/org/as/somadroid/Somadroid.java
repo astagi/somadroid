@@ -174,8 +174,17 @@ public class Somadroid extends SomaActivity implements RadioView{
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this, PlayRadio.class);             
         intent.putExtra("ch_number", position);
-        startActivity(intent);
-
+        startActivityForResult(intent, 1);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if(resultCode == Consts.CLOSE_REQUEST)
+            this.cleanExit();
+        
     }
     
     
