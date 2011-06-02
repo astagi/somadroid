@@ -33,14 +33,11 @@ import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import org.as.somadroid.R;
-
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +49,7 @@ import android.widget.SimpleAdapter;
 public class Somadroid extends SomaActivity implements RadioView{
 	
     private static boolean created = false;
-    private PrepareAdapter pa = new PrepareAdapter(this, !created);
+    private static PrepareAdapter pa;
     private static Context context;
     private static SimpleAdapter current_adapter;
     
@@ -67,17 +64,21 @@ public class Somadroid extends SomaActivity implements RadioView{
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        context = this.getApplicationContext();
-        handler.removeMessages(0);
-        setContentView(R.layout.custom_list_view);
         
-        ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
-                
-        if(created)   
+        if(!created)
+        {
+            context = this.getApplicationContext();
+            setContentView(R.layout.custom_list_view);
+            ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
+
+        }else
             this.setAdapterAndNotify(current_adapter);
         
+        handler.removeMessages(0);
+        if(pa != null)
+            pa.cancel(true);
+        pa = new PrepareAdapter(this, !created);
         pa.execute();
-        created = true;
         
     }
     
@@ -138,6 +139,7 @@ public class Somadroid extends SomaActivity implements RadioView{
     
     public void setAdapterAndNotify(SimpleAdapter adapter)
     {
+        created = true;
         this.setListAdapter(adapter);
         adapter.notifyDataSetChanged();
         ((SomadroidApp)this.getApplication()).channel_factory.inform();
@@ -153,7 +155,7 @@ public class Somadroid extends SomaActivity implements RadioView{
     private ArrayList<HashMap<String,Object>>  populateRadioList(CopyOnWriteArrayList <Channel> arr) {
     	
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
-    	
+        
         for( int i = 0; i < arr.size(); i++ )
         {			
             HashMap<String,Object> temp = new HashMap<String,Object>();

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -127,6 +128,8 @@ public class RadioController implements Controller {
         @Override
         protected void onPreExecute() {
             
+            activity.setRequestedOrientation(activity.getResources().getConfiguration().orientation);
+            
             dialog = new ProgressDialog(activity);
             dialog.setMessage(activity.getString(R.string.buffering));
             dialog.setIndeterminate(true);
@@ -177,9 +180,12 @@ public class RadioController implements Controller {
             }
             
             RadioController.this.inform();
-
                 
-            dialog.dismiss();
+            try{
+                dialog.dismiss();
+            }catch(Exception e){}
+            
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
     
