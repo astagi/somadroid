@@ -28,6 +28,7 @@
 
 package org.as.somadroid;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,8 +72,24 @@ public class Utils {
         return time;
     }
 	
+    public static boolean existsImageInPhone(String filename)
+    {
+        FileInputStream fos = null;
+        
+        try {
+            fos = Somadroid.app_context().openFileInput(filename);
+            fos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 	
-    public static String saveImageToPhone(Bitmap bm,String filename)
+    public static String saveImageToPhone(Bitmap bm, String filename)
     {
 
         FileOutputStream fos = null;
@@ -91,14 +108,40 @@ public class Utils {
         return "";
 		
     }
+    
+    public static String getAbsImagePath(String filename)
+    {
+        return Somadroid.app_context().getFilesDir() + "/" + filename;
+    }
 	
     public static Bitmap loadBitmap(String url) 
-    {
-		
+    {	
         Bitmap bmImg = BitmapFactory.decodeStream(StreamFromUrl(url));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 90, 90, false);
         return resizedBitmap;
+    }
+    
+    public static Bitmap loadBitmapFromFile(String localName) {
+        
+        FileInputStream fos = null;
+        
+        try{   
+            fos = Somadroid.app_context().openFileInput(localName);
+        } catch (FileNotFoundException e) {    
+            e.printStackTrace();
+            return null;
+        }
 
+        Bitmap bmImg = BitmapFactory.decodeStream(fos);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmImg, 90, 90, false);
+        
+        try {
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return resizedBitmap;
     }
 	
     public static InputStream StreamFromUrl(String exturl)
@@ -119,7 +162,6 @@ public class Utils {
         return null;
         
     }
-    
 
     
     public static Uri songInAmazon(Song song)
@@ -162,5 +204,6 @@ public class Utils {
         
         return null;
     }
+
 
 }

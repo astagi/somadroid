@@ -115,8 +115,19 @@ public class Channel {
     {
         if(this.image_bmp == null)
         {
-            this.image_bmp = Utils.loadBitmap(this.getAttribute("image"));
-            this.local_img_dir = Utils.saveImageToPhone(this.image_bmp, this.getLocalName());
+            String localName = this.getLocalName();
+            
+            if(!Utils.existsImageInPhone(localName))
+            {
+                this.image_bmp = Utils.loadBitmap(this.getAttribute("image"));
+                Utils.saveImageToPhone(this.image_bmp, localName);
+            }
+            else
+            {
+                this.image_bmp = Utils.loadBitmapFromFile(localName);
+            }
+            
+            this.local_img_dir = Utils.getAbsImagePath(localName);
         }
     }
 	
