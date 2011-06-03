@@ -29,7 +29,6 @@
 
 package org.as.somadroid;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +46,10 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
 	private int n_channel_to_play;
 	private RadioNotification radio_notification;
 	private boolean play = false;
-	private Activity activity;
+	private SomaActivity activity;
 	
 	
-    public RadioWidget(Activity activity) {
+    public RadioWidget(SomaActivity activity) {
         
         super(activity);
         

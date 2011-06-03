@@ -31,9 +31,7 @@ package org.as.somadroid;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -47,7 +45,7 @@ public class RadioController implements Controller {
     private ArrayList <RadioView> radioview = new ArrayList <RadioView>();
     Handler handler = new Handler();
     PrepareRadio prepare_radio = null;
-    Activity activity;
+    SomaActivity activity;
 
     
     public RadioController(Radio radio)
@@ -55,13 +53,13 @@ public class RadioController implements Controller {
         this.radio = radio;
     }
     
-    public void play(Activity activity, Channel ch)
+    public void play(SomaActivity activity, Channel ch)
     {
         this.radio.setChannel(ch);
         this.play(activity);
     }
     
-    public void play(Activity activity)
+    public void play(SomaActivity activity)
     {
         if(radio.getChannel() == null)
             return;
@@ -118,9 +116,9 @@ public class RadioController implements Controller {
     public class PrepareRadio extends AsyncTask<Void,Void,Boolean > {
         
         private ProgressDialog dialog;  
-        Activity activity;
+        SomaActivity activity;
         
-        public PrepareRadio(Activity activity)
+        public PrepareRadio(SomaActivity activity)
         {
             this.activity = activity;
         }
@@ -128,7 +126,7 @@ public class RadioController implements Controller {
         @Override
         protected void onPreExecute() {
             
-            activity.setRequestedOrientation(activity.getResources().getConfiguration().orientation);
+            activity.lockOrtientation();
             
             dialog = new ProgressDialog(activity);
             dialog.setMessage(activity.getString(R.string.buffering));
@@ -185,7 +183,7 @@ public class RadioController implements Controller {
                 dialog.dismiss();
             }catch(Exception e){}
             
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            activity.unlockOrtientation();
         }
     }
     

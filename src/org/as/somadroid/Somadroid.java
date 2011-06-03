@@ -67,6 +67,8 @@ public class Somadroid extends SomaActivity implements RadioView{
         
         if(!created)
         {
+            //this.setRequestedOrientation(getWindowManager().getDefaultDisplay().getOrientation());
+            
             context = this.getApplicationContext();
             setContentView(R.layout.custom_list_view);
             ((SomadroidApp) this.getApplication()).radio_controller.attach(this);

@@ -30,7 +30,6 @@
 package org.as.somadroid;
 
 import android.app.ProgressDialog;
-import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.SimpleAdapter;
@@ -54,8 +53,8 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
 
         if(!this.output_visible)
             return;
-       
-        soma.setRequestedOrientation(soma.getResources().getConfiguration().orientation);
+        
+        soma.lockOrtientation();
         
         dialog = new ProgressDialog(soma);
         dialog.setMessage(soma.getString(R.string.loading_stations));
@@ -102,12 +101,11 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
                 }catch(Exception e){}
             }
             
-            soma.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-            
             soma.doTheAutoRefresh(Consts.REFRESH_DELAY);
 
         }
         
+        soma.unlockOrtientation();
 
     }
 }
