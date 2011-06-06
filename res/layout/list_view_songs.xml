@@ -20,10 +20,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">  
 	  
-            <TextView android:id="@+id/radio_title"         
-                android:textSize="16sp"         
-                android:textStyle="bold" 
-                android:textColor="#FFFF00"        
+            <TextView android:id="@+id/listeners"         
+                android:typeface="sans"
+                android:textSize="14sp"
+                android:textStyle="italic"      
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"  	
                 android:layout_weight="0" android:layout_marginLeft="10dip"/>

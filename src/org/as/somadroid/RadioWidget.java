@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 public class RadioWidget extends LinearLayout implements RadioView, ChannelView {
 
+    private TextView channel_title;
     private TextView song_author;
     private TextView song_title;
     private ImageButton play_button;
@@ -59,6 +60,7 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
         inflater.inflate(R.layout.radiowidget, this);
         
         this.play_button = (ImageButton)this.findViewById(R.id.play_button);
+        this.channel_title = (TextView)this.findViewById(R.id.current_channel);
         this.song_author = (TextView)this.findViewById(R.id.current_song_auth);
         this.song_title = (TextView)this.findViewById(R.id.current_song_title);
 
@@ -89,6 +91,7 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
 
     private void offMe()
     {
+        this.channel_title.setText(activity.getString(R.string.off_text));
         this.song_author.setText(activity.getString(R.string.off_text));
         this.song_title.setText(activity.getString(R.string.off_text));
         radio_notification.notifyStop();
@@ -126,6 +129,7 @@ public class RadioWidget extends LinearLayout implements RadioView, ChannelView 
         Song last = currentCh.getLastSong();
         String radioTitle = currentCh.getAttribute("title");
         this.radio_notification.notifyPlay(radioTitle,last);
+        this.channel_title.setText(radioTitle);
         this.song_author.setText(last.getAuthor());
         this.song_title.setText(last.getTitle());
         

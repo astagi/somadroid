@@ -49,7 +49,7 @@ import android.widget.TextView;
 
 public class PlayRadio extends SomaActivity implements ChannelView{
 
-    private TextView radio_title;
+    private TextView listeners;
     private TextView radio_dj;
     private TextView radio_description;
     private ImageView radio_logo;
@@ -76,10 +76,11 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         
         ((SomadroidApp)this.getApplication()).channel_factory.addChannelAndView(this, channel);
         this.radio_w = new RadioWidget(this);
-        this.radio_w.setChannelToPlay(channel,n_channel);
+        this.radio_w.setChannelToPlay(channel, n_channel);
         setContentView(R.layout.list_view_songs);
         this.populateRadioList();
         this.getElementsFromLayout();
+        this.setTitle(this.getString(R.string.app_name) + " : " + channel.getAttribute("title"));
         this.registerForContextMenu(this.getListView());
         
     }
@@ -139,7 +140,7 @@ public class PlayRadio extends SomaActivity implements ChannelView{
     
     protected void getElementsFromLayout()
     {
-        this.radio_title = (TextView)this.findViewById(R.id.radio_title);    	
+        this.listeners = (TextView)this.findViewById(R.id.listeners);    	
         this.radio_dj = (TextView)this.findViewById(R.id.radio_dj);
         this.radio_description = (TextView)this.findViewById(R.id.radio_description);
         this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
@@ -149,8 +150,8 @@ public class PlayRadio extends SomaActivity implements ChannelView{
 		
         this.radio_logo.setImageBitmap(this.channel.getImage());
 		
-        this.radio_title.setText(this.channel.getAttribute("title"));
-        this.radio_dj.setText("Dj: " + this.channel.getAttribute("dj"));
+        this.listeners.setText(this.getString(R.string.radio_listeners) + ": " + this.channel.getAttribute("listeners"));
+        this.radio_dj.setText(this.getString(R.string.radio_dj) + ": " + this.channel.getAttribute("dj"));
         this.radio_description.setText(this.channel.getAttribute("description"));
     }
     
