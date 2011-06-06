@@ -69,10 +69,11 @@ public class Somadroid extends SomaActivity implements RadioView{
         {            
             context = this.getApplicationContext();
             setContentView(R.layout.custom_list_view);
-            ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
 
         }else
             this.setAdapterAndNotify(current_adapter);
+        
+        ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
         
         handler.removeMessages(0);
         if(pa != null)
