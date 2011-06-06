@@ -131,7 +131,7 @@ public class PlayRadio extends SomaActivity implements ChannelView{
                 this.showAbout();
                 return true;
             case R.id.exit:
-                this.cleanExit();
+                ((SomadroidApp)this.getApplication()).exit();
                 return true;
         }
         return false;
@@ -165,7 +165,6 @@ public class PlayRadio extends SomaActivity implements ChannelView{
     
     protected void cleanExit() {
         super.cleanExit();
-        this.setResult(Consts.CLOSE_REQUEST);
         this.finish();
     }
     

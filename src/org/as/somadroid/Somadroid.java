@@ -66,9 +66,7 @@ public class Somadroid extends SomaActivity implements RadioView{
         super.onCreate(savedInstanceState);
         
         if(!created)
-        {
-            //this.setRequestedOrientation(getWindowManager().getDefaultDisplay().getOrientation());
-            
+        {            
             context = this.getApplicationContext();
             setContentView(R.layout.custom_list_view);
             ((SomadroidApp) this.getApplication()).radio_controller.attach(this);
@@ -178,17 +176,7 @@ public class Somadroid extends SomaActivity implements RadioView{
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this, PlayRadio.class);             
         intent.putExtra("ch_number", position);
-        startActivityForResult(intent, 1);
-    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        
-        if(resultCode == Consts.CLOSE_REQUEST)
-            this.cleanExit();
-        
+        startActivity(intent);
     }
     
     
@@ -223,7 +211,7 @@ public class Somadroid extends SomaActivity implements RadioView{
                 this.showAbout();
                 return true;
             case R.id.exit:
-                this.cleanExit();
+                ((SomadroidApp)this.getApplication()).exit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
