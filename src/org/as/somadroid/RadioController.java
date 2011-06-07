@@ -126,7 +126,7 @@ public class RadioController implements Controller {
         @Override
         protected void onPreExecute() {
             
-            activity.lockOrtientation();
+            //activity.lockOrtientation();
             
             dialog = new ProgressDialog(activity);
             dialog.setMessage(activity.getString(R.string.buffering));
@@ -183,7 +183,7 @@ public class RadioController implements Controller {
                 dialog.dismiss();
             }catch(Exception e){}
             
-            activity.unlockOrtientation();
+            //activity.unlockOrtientation();
         }
     }
     

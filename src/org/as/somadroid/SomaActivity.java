@@ -26,13 +26,13 @@ public class SomaActivity extends ListActivity{
         about.show();
     }
     
-    @Override
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             ((SomadroidApp)this.getApplication()).removeActivity(this);
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
     
     protected void cleanExit() {
         ((SomadroidApp) this.getApplication()).radio_controller.stop();

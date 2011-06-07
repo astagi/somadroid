@@ -54,7 +54,7 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
         if(!this.output_visible)
             return;
         
-        soma.lockOrtientation();
+        //soma.lockOrtientation();
         
         dialog = new ProgressDialog(soma);
         dialog.setMessage(soma.getString(R.string.loading_stations));
@@ -105,7 +105,7 @@ public class PrepareAdapter extends AsyncTask<Void,Void,SimpleAdapter > {
 
         }
         
-        soma.unlockOrtientation();
+        //soma.unlockOrtientation();
 
     }
 }
