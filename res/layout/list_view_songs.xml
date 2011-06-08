@@ -64,7 +64,34 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:background="#8c8a8c"
-        android:layout_height="80dip">	  
+        android:layout_height="wrap_content"
+        android:orientation="vertical">	  
     </LinearLayout>
+    
+    <TableLayout 
+
+        android:layout_height="wrap_content" 
+        android:id="@+id/TableLayout" 
+        android:background="#8c8a8c"
+        android:layout_width="fill_parent"
+        android:stretchColumns="*">
+        
+        <TableRow>
+        
+            <ImageButton
+                android:id="@+id/pre_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="35dip"
+                android:src="@android:drawable/ic_media_rew" />
+	            
+            <ImageButton
+                android:id="@+id/nxt_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="35dip"
+                android:src="@android:drawable/ic_media_ff" />
+                
+         </TableRow>
+                     
+    </TableLayout>	 
 	  
 </LinearLayout>

@@ -41,7 +41,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,17 +55,19 @@ public class PlayRadio extends SomaActivity implements ChannelView{
     private TextView radio_dj;
     private TextView radio_description;
     private ImageView radio_logo;
+    private ImageButton btn_next;
+    private ImageButton btn_prev;
     private LinearLayout radio_w_layout;
     
     private Channel channel;
     private RadioWidget radio_w;
+    int n_channel = 0;
 
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        int n_channel = 0;
                 
         try{
             n_channel = this.getIntent().getExtras().getInt("ch_number");
@@ -80,9 +84,19 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         setContentView(R.layout.list_view_songs);
         this.populateRadioList();
         this.getElementsFromLayout();
+        this.updateElements();
         this.setTitle(this.getString(R.string.app_name) + " : " + channel.getAttribute("title"));
         this.registerForContextMenu(this.getListView());
         
+    }
+    
+    public void changeChannel()
+    {
+        channel = ((SomadroidApp)this.getApplication()).channel_factory.getChannels().get(n_channel);
+        this.radio_w.setChannelToPlay(channel, n_channel);
+        this.populateRadioList();
+        this.updateElements();
+        this.setTitle(this.getString(R.string.app_name) + " : " + channel.getAttribute("title"));
     }
     
     @Override
@@ -145,14 +159,59 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         this.radio_description = (TextView)this.findViewById(R.id.radio_description);
         this.radio_logo = (ImageView)this.findViewById(R.id.img_current_radio);
         this.radio_w_layout = (LinearLayout)this.findViewById(R.id.radiowidget);
+        this.radio_w_layout.addView(this.radio_w, LayoutParams.FILL_PARENT);
         
-        this.radio_w_layout.addView(this.radio_w);
+        this.btn_next = (ImageButton)this.findViewById(R.id.nxt_btn);
+        this.btn_prev = (ImageButton)this.findViewById(R.id.pre_btn);
 		
+ 
+    }
+    
+    public void updateElements()
+    {
         this.radio_logo.setImageBitmap(this.channel.getImage());
-		
+        
         this.listeners.setText(this.getString(R.string.radio_listeners) + ": " + this.channel.getAttribute("listeners"));
         this.radio_dj.setText(this.getString(R.string.radio_dj) + ": " + this.channel.getAttribute("dj"));
         this.radio_description.setText(this.channel.getAttribute("description"));
+        
+        this.btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) 
+            {
+                int size = ((SomadroidApp)PlayRadio.this.getApplication()).channel_factory.getChannels().size();
+                
+                PlayRadio.this.n_channel =  (PlayRadio.this.n_channel + 1) % size;
+                PlayRadio.this.changeChannel();
+                
+            }
+            
+        });
+        
+        this.btn_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) 
+            {
+                
+                int size = ((SomadroidApp)PlayRadio.this.getApplication()).channel_factory.getChannels().size();
+
+                PlayRadio.this.n_channel --;
+                
+                if(PlayRadio.this.n_channel < 0)
+                    PlayRadio.this.n_channel = size - 1;
+                
+                PlayRadio.this.changeChannel();
+                
+            }
+            
+        });
+        
+        this.radio_dj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) 
+            {}
+            
+        });
     }
     
     @Override
