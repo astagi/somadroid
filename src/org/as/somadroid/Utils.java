@@ -44,10 +44,19 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class Utils {
 	
@@ -142,6 +151,30 @@ public class Utils {
         }
         
         return resizedBitmap;
+    }
+    
+    public static AlertDialog createSimpleDialog(Context ct, View view, String title)
+    {
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(ct);
+        
+        builder.setView(view);
+        builder.setTitle(title);
+        builder.setCancelable(true);
+        
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+        
+        builder.setPositiveButton("Ok", dialogClickListener);
+        return builder.create();
     }
 	
     public static InputStream StreamFromUrl(String exturl)

@@ -286,6 +286,7 @@ public class Somadroid extends SomaActivity implements RadioView{
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", dialogClickListener);
         builder.setNegativeButton("No", dialogClickListener).show();
+        
     }
     
     

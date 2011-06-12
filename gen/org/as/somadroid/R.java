@@ -21,9 +21,9 @@ public final class R {
     public static final class id {
         public static final int TableLayout=0x7f05000f;
         public static final int about=0x7f050014;
-        public static final int current_channel=0x7f050017;
-        public static final int current_song_auth=0x7f050018;
-        public static final int current_song_title=0x7f050019;
+        public static final int current_channel=0x7f050018;
+        public static final int current_song_auth=0x7f050019;
+        public static final int current_song_title=0x7f05001a;
         public static final int currentplay=0x7f050007;
         public static final int exit=0x7f050015;
         public static final int image=0x7f050003;
@@ -35,15 +35,16 @@ public final class R {
         public static final int my_img=0x7f050012;
         public static final int my_text=0x7f050013;
         public static final int nxt_btn=0x7f050011;
-        public static final int play_button=0x7f050016;
+        public static final int play_button=0x7f050017;
         public static final int pre_btn=0x7f050010;
+        public static final int radio_desc_more=0x7f050016;
         public static final int radio_description=0x7f05000d;
         public static final int radio_dj=0x7f05000c;
         public static final int radiowidget=0x7f05000e;
         public static final int song_auth=0x7f050009;
         public static final int song_time=0x7f050008;
         public static final int song_title=0x7f05000a;
-        public static final int stop=0x7f05001a;
+        public static final int stop=0x7f05001b;
         public static final int text=0x7f050001;
         public static final int title=0x7f050005;
     }
@@ -55,8 +56,9 @@ public final class R {
         public static final int list_view_songs=0x7f030004;
         public static final int main=0x7f030005;
         public static final int playradiomenu=0x7f030006;
-        public static final int radiowidget=0x7f030007;
-        public static final int usermenu=0x7f030008;
+        public static final int radiodesc=0x7f030007;
+        public static final int radiowidget=0x7f030008;
+        public static final int usermenu=0x7f030009;
     }
     public static final class string {
         public static final int about_text=0x7f040009;
@@ -65,6 +67,7 @@ public final class R {
         public static final int buffering=0x7f040004;
         public static final int connection_problems=0x7f040007;
         public static final int description_text=0x7f040008;
+        public static final int expand=0x7f04000f;
         public static final int google_search=0x7f040002;
         public static final int loading_stations=0x7f040003;
         public static final int menu_about=0x7f04000b;

@@ -15,7 +15,8 @@
             android:id="@+id/play_button"
             android:layout_width="70dip"
             android:layout_height="70dip"
-            android:src="@drawable/play" />
+            android:src="@drawable/play" 
+            android:layout_centerHorizontal="true"/>
         
 
 			

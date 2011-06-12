@@ -22,4 +22,6 @@
     
     <string name="radio_dj">Dj</string>
     <string name="radio_listeners">Listeners</string>
+    
+    <string name="expand">(Expand)</string>
 </resources>

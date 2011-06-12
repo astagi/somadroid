@@ -6,6 +6,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class SomaActivity extends ListActivity{
     
@@ -19,10 +21,8 @@ public class SomaActivity extends ListActivity{
     }
     
     protected void showAbout() {
-        Dialog about = new Dialog(this);
-        about.setContentView(R.layout.about);  
-        about.setTitle("Somadroid");
-        about.setCancelable(true);
+        View view = LayoutInflater.from(this).inflate(R.layout.about, null);
+        Dialog about = Utils.createSimpleDialog(this, view, this.getString(R.string.app_name));
         about.show();
     }
     

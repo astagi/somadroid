@@ -32,10 +32,12 @@ package org.as.somadroid;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -173,7 +175,7 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         
         this.listeners.setText(this.getString(R.string.radio_listeners) + ": " + this.channel.getAttribute("listeners"));
         this.radio_dj.setText(this.getString(R.string.radio_dj) + ": " + this.channel.getAttribute("dj"));
-        this.radio_description.setText(this.channel.getAttribute("description"));
+        this.radio_description.setText(this.channel.getAttribute("description").substring(0, 37) + "..." + this.getString(R.string.expand));
         
         this.btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +212,19 @@ public class PlayRadio extends SomaActivity implements ChannelView{
             @Override
             public void onClick(View v) 
             {}
+            
+        });
+        
+        this.radio_description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) 
+            {
+                View view = LayoutInflater.from(PlayRadio.this).inflate(R.layout.radiodesc, null);
+                TextView txt_desc = (TextView)view.findViewById(R.id.radio_desc_more);
+                txt_desc.setText(PlayRadio.this.channel.getAttribute("description"));
+                Dialog radio_desc = Utils.createSimpleDialog(PlayRadio.this, view, PlayRadio.this.channel.getAttribute("title"));
+                radio_desc.show();
+            }
             
         });
     }

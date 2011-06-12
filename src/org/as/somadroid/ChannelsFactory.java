@@ -39,6 +39,7 @@ import org.w3c.dom.NodeList;
 public class ChannelsFactory implements Controller {
 	
     private Document channels_xml;
+    private Document changes_xml;
     private int times_faliure;
     private CopyOnWriteArrayList <Channel> chans = null;
     private CopyOnWriteArrayList <ChannelAndView> channelsview = new CopyOnWriteArrayList <ChannelAndView> ();
@@ -97,11 +98,17 @@ public class ChannelsFactory implements Controller {
 		
             NodeList nodeLst = this.channels_xml.getElementsByTagName("channel");
             String res = null;
+            
+            if(nodeLst.getLength() < 20)
+            {
+                this.chans = chans_aux;
+                return false;
+            }
 			
             if(this.chans == null)
             {
-                this.chans = new CopyOnWriteArrayList <Channel> ();
-			
+                this.chans = new CopyOnWriteArrayList <Channel> ();               
+                
                 for ( int i = 0; i < nodeLst.getLength() ; i++ )
                     this.chans.add(new Channel());
             }
@@ -169,6 +176,10 @@ public class ChannelsFactory implements Controller {
         }
         else
             this.times_faliure = 0;
+    }
+
+    public int getNChannels() {
+        return this.chans.size();
     }
 
 }
