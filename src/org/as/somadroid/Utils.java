@@ -231,11 +231,12 @@ public class Utils {
     		
         } catch (SAXException e) {
             e.printStackTrace();
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        
-        return null;
+
     }
 
 

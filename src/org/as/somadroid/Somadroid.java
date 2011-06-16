@@ -120,7 +120,7 @@ public class Somadroid extends SomaActivity implements RadioView{
             return null;
         }
 
-        CopyOnWriteArrayList <Channel> chans2 = ((SomadroidApp)this.getApplication()).channel_factory.getChannels();  
+        ArrayList <Channel> chans2 = ((SomadroidApp)this.getApplication()).channel_factory.getChannels();  
         
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
 	
@@ -153,18 +153,18 @@ public class Somadroid extends SomaActivity implements RadioView{
     }
     
     
-    private ArrayList<HashMap<String,Object>>  populateRadioList(CopyOnWriteArrayList <Channel> arr) {
+    private ArrayList<HashMap<String,Object>>  populateRadioList(ArrayList<Channel> chans2) {
     	
         ArrayList<HashMap<String,Object>> list_populate = new ArrayList<HashMap<String,Object>>();   
         
-        for( int i = 0; i < arr.size(); i++ )
+        for( int i = 0; i < chans2.size(); i++ )
         {			
             HashMap<String,Object> temp = new HashMap<String,Object>();
-            temp.put("radio_logo", arr.get(i).getImagePath());
-            temp.put("radio_title",arr.get(i).getAttribute("title"));
-            temp.put("radio_listeners", "Genre: " + arr.get(i).getAttribute("genre"));
-            temp.put("radio_song", arr.get(i).getAttribute("lastPlaying"));
-            temp.put("channel", arr.get(i));
+            temp.put("radio_logo", chans2.get(i).getImagePath());
+            temp.put("radio_title",chans2.get(i).getAttribute("title"));
+            temp.put("radio_listeners", "Genre: " + chans2.get(i).getAttribute("genre"));
+            temp.put("radio_song", chans2.get(i).getAttribute("lastPlaying"));
+            temp.put("channel", chans2.get(i));
             list_populate.add(temp);	
         }
         

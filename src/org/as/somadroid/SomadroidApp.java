@@ -35,14 +35,15 @@ import android.app.Application;
 
 public class SomadroidApp extends Application {
 
-    public RadioController radio_controller = new RadioController(new Radio());
-    public ChannelsFactory channel_factory = new ChannelsFactory();
-    private ArrayList<SomaActivity> activities = new ArrayList<SomaActivity>();
+    public static RadioController radio_controller = new RadioController(new Radio());
+    public static ChannelsFactory channel_factory = new ChannelsFactory();
+    private static ArrayList<SomaActivity> activities = new ArrayList<SomaActivity>();
     private int last_channel_seen;
     
     public void addActivity(SomaActivity a)
     {
-        this.activities.add(a);
+        if(this.activities.size() < 2)
+            this.activities.add(a);
     }
     
     public void exit()
@@ -55,7 +56,7 @@ public class SomadroidApp extends Application {
     
     public void removeActivity(SomaActivity a)
     {
-        this.activities.remove(a);
+        //this.activities.remove(a);
     }
 	
     public void setLastChSeen(int last_channel)

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class Channel {
 	
@@ -55,8 +56,14 @@ public class Channel {
 	
     public void addAttribute(String id, String value)
     {
+        this.attributes.remove(id);
         this.attributes.put(id, value);
         this.attributeAddedHandler(id, value);
+        
+        Log.i("array_fast","" + this.playlists_fast.size());
+        Log.i("array_slow","" + this.playlists_slow.size());
+        Log.i("array_attributes","" + this.attributes.size());
+
     }
 	
     public SongsHistory getHistory()
@@ -73,8 +80,6 @@ public class Channel {
     {
         if(attribute.compareTo("image") == 0)
             this.buildImage();
-        if(attribute.compareTo("fastpls") == 0)
-            this.buildImage();
         if(attribute.compareTo("slowpls") == 0)
             this.addSlowPlaylist(new Playlist(value));
         if(attribute.compareTo("fastpls") == 0)
@@ -89,12 +94,14 @@ public class Channel {
 	
     private void addFastPlaylist(Playlist pls)
     {
-        this.playlists_fast.add(pls);
+        if(this.playlists_fast.size() < 4)
+            this.playlists_fast.add(pls);
     }
     
     private void addSlowPlaylist(Playlist pls)
     {
-        this.playlists_slow.add(pls);
+        if(this.playlists_slow.size() < 4)
+            this.playlists_slow.add(pls);
     }
     
     public Song getLastSong()

@@ -77,7 +77,8 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         }catch(NullPointerException ex)
         {
             n_channel = ((SomadroidApp)this.getApplication()).getLastChSeen();
-            channel = ((SomadroidApp)this.getApplication()).channel_factory.getChannels().get(n_channel);
+            ArrayList<Channel> chs = ((SomadroidApp)this.getApplication()).channel_factory.getChannels();
+            channel = chs.get(n_channel);
         }
         
         ((SomadroidApp)this.getApplication()).channel_factory.addChannelAndView(this, channel);
