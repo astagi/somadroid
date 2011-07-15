@@ -1,32 +1,3 @@
-/*
-        Developed by Andrea Stagi <http://4spills.blogspot.com/>
-
-        Somadroid: a free SomaFM Client for Android phones (http://somafm.com/)
-        Copyright (C) 2010 Andrea Stagi <http://4spills.blogspot.com/>
-
-        This program is free software: you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation, either version 3 of the License, or
-        (at your option) any later version.
-
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-
-        You should have received a copy of the GNU General Public License
-        along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/***
- * 
- * Module name: ChannelFactory
- * Date: 12/04/11
- * Author: Andrea Stagi <stagi.andrea(at)gmail.com>
- *
- ***/
-
-
 package org.as.somadroid;
 
 import java.util.ArrayList;
@@ -157,13 +128,23 @@ public class ChannelsFactory implements Controller {
                 this.chsource = Consts.REFRESH_URL;
                 this.first = false;
             }
+            
+            if(this.chans == null && chans_aux != null)
+            {
+                this.chans = new ArrayList <Channel> ();
+                
+                for(int i = 0; i < chans_aux.size(); i++)
+                    this.chans.add(new Channel());
+                
+                Collections.copy(this.chans,chans_aux);
+            }
 			
             return true;
             
         }catch(Exception e){
             if(this.chans != null && chans_aux != null)
             {
-                this.chans = new ArrayList <Channel> (chans_aux.size());
+                this.chans = new ArrayList <Channel> ();
                 
                 for(int i = 0; i < chans_aux.size(); i++)
                     this.chans.add(new Channel());

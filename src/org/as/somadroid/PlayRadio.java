@@ -1,30 +1,3 @@
-/*
-        Developed by Andrea Stagi <http://4spills.blogspot.com/>
-
-        Somadroid: a free SomaFM Client for Android phones (http://somafm.com/)
-        Copyright (C) 2010 Andrea Stagi <http://4spills.blogspot.com/>
-
-        This program is free software: you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation, either version 3 of the License, or
-        (at your option) any later version.
-
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-
-        You should have received a copy of the GNU General Public License
-        along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/***
- * 
- * Module name: PlayRadio
- * Date: 12/04/11
- * Author: Andrea Stagi <stagi.andrea(at)gmail.com>
- *
- ***/
 
 
 package org.as.somadroid;
@@ -176,7 +149,13 @@ public class PlayRadio extends SomaActivity implements ChannelView{
         
         this.listeners.setText(this.getString(R.string.radio_listeners) + ": " + this.channel.getAttribute("listeners"));
         this.radio_dj.setText(this.getString(R.string.radio_dj) + ": " + this.channel.getAttribute("dj"));
-        this.radio_description.setText(this.channel.getAttribute("description").substring(0, 37) + "..." + this.getString(R.string.expand));
+        
+        String description = this.channel.getAttribute("description");
+        
+        if(description.length() > 37)
+            description = description.substring(0, 37);
+
+        this.radio_description.setText(description + "..." + this.getString(R.string.expand));
         
         this.btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,8 +200,14 @@ public class PlayRadio extends SomaActivity implements ChannelView{
             public void onClick(View v) 
             {
                 View view = LayoutInflater.from(PlayRadio.this).inflate(R.layout.radiodesc, null);
-                TextView txt_desc = (TextView)view.findViewById(R.id.radio_desc_more);
-                txt_desc.setText(PlayRadio.this.channel.getAttribute("description"));
+                TextView txt_desc = (TextView)view.findViewById(R.id.radio_desc_more); 
+                
+                String description = PlayRadio.this.channel.getAttribute("description");
+                
+                if(description.length() > 37)
+                    description = description.substring(0, 37);
+                
+                txt_desc.setText(description);
                 Dialog radio_desc = Utils.createSimpleDialog(PlayRadio.this, view, PlayRadio.this.channel.getAttribute("title"));
                 radio_desc.show();
             }
